@@ -1,1 +1,1 @@
-dpkg-deb -b com.supermamon.cylindernitro
+dpkg-deb -Zgzip -b com.supermamon.cylindernitro
