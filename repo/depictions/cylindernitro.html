@@ -1,89 +1,42 @@
-<!--
-<?php
-
-if(strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone') || strpos($_SERVER['HTTP_USER_AGENT'],'iPad' ) || strpos($_SERVER['HTTP_USER_AGENT'], 'iPod' ) !== false){
-    if (strpos($_SERVER['HTTP_USER_AGENT'], 'OS 8_1_1') || strpos($_SERVER['HTTP_USER_AGENT'], 'OS 8_1_0')  || strpos($_SERVER['HTTP_USER_AGENT'], 'OS 8_1')  || strpos($_SERVER['HTTP_USER_AGENT'], 'OS 8_0') || strpos($_SERVER['HTTP_USER_AGENT'], 'OS 7_1_2') || strpos($_SERVER['HTTP_USER_AGENT'], 'OS 7_1') == true) {
-    	$compatabilityNotice = "Your iOS version is compatible :)";
-    	$compatabilityDiv = "compatibileDiv";
-    }
-    else{
-    	$compatabilityNotice = "Your firmware is not supported yet. You can check back later or follow package updates via the 'Change Package Settings' button";
-    	$compatabilityDiv = "notCompatibileDiv";
-    	}
-    
-    }
-
-else {
-    $compatabilityNotice = "Visit this site on your iOS device to view compatibility information";
-    $compatabilityDiv = "notCompatibileDiv";
-}
-?>
--->
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>
-			Supermamon's Repo :: Cylinder Nitro
-		</title>
+		<title>Supermamon's Repo :: Cylinder Nitro</title>
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0">
-		
 		<link rel="stylesheet" type="text/css" href="css/CydiaNew.css">
 	</head>
-
 	<body>
-		<div class="outer">
-		<div class="middle">
-		<div id="container">
-		
-			<!--
-			<div id="contentSingle">
-			
-				<img class="repoDescription" src="images/betterGrabberIcon.png">
-				<h2 class="repoDescriptionHeader">&nbsp;&nbsp;Cylinder Nitro</h3>
-			
+		<div id="outer">
+			<div id="container">
+			<div id="border">
+			<div class="sectionHeader">Description</div>
+			<div class="sectionContent">
+					<p>More cool effects for Cylinder</p>
 			</div>
-			-->
-			<!--
-			<div id="<?php echo $compatabilityDiv?>">
-			
-				<p><center><?php echo "<b>" . $compatabilityNotice . "</b>"; ?></center></p>
-			
-			</div>
-			-->
-			<div id="contentSingle">
-				<h3 class="textHeaderLabel">Description</h3>
-			</div>
-			<div id="contentBottom">
-				More cool effects for Cylinder
-			</div><!--Close Package Header Div-->
+			<div class="sectionSeparator"></div>
 
-			<div id="contentSingle">
-				<h3 class="textHeaderLabel">In This Update</h3>
+			<div class="sectionHeader">In This Update</div>
+			<div class="sectionContent">
+					<p>First Release</p>
 			</div>
-			<div id="contentBottom">
-				<ul>
-					<li><p>First Release</p></li>
-				</ul>			
-			</div><!--Close Package Header Div-->
-			
-			<div id="contentSingle">
-				<h3 class="textHeaderLabel">Links</h3>
+			<div class="sectionSeparator"></div>
+
+			<div class="sectionHeader">Links</div>
+			<div class="sectionSlim">
+				<ul class="linkWithIcon">
+					<li class="twitter"><a href="https://twitter.com/intent/follow?screen_name=supermamon" target="_blank">Follow @supermamon</a>
+				</ul>
 			</div>
-			<div id="contentBottom">
-				<ul>
-					<li>
-						<a href="https://twitter.com/intent/follow?screen_name=supermamon" target="_blank">Follow @supermamon on Twitter</a>
-					</li>
-					<hr>
-					<li>
-						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BPQNBXPYB56HL&lc=US&item_name=Send%20love%20to%20@supermamon&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate to Developer</a>
-					</li>
-				</ul>			
-			</div><!--Close Package Header Div-->
+			<div class="sectionSlim">
+				<ul class="linkWithIcon">
+					<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BPQNBXPYB56HL&lc=US&item_name=Send%20love%20to%20@supermamon&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate to Developer</a>
+				</ul>
+			</div>
+			</div><!-- border -->			
+			</div><!-- outer -->
 			
-		</div><!--Close Container Div-->
 		</div>
-		</div>
+		
 	</body>
 	
 </html>
