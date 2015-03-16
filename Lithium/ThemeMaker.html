@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Lithium Theme Editor v0.21 by @supermamon</title>
+	<title>Lithium Theme Editor v0.30 by @supermamon</title>
 	<style type="text/css">
 	* {
 		font-family : 'Helvetica';
@@ -11,6 +11,16 @@
 	#code {
 		font-family : 'Consolas','Courier New','Courier','monospace';
 		font-size: 9pt;
+		border: 1px solid Black;
+		border-top: 0px;
+
+	}
+	#divCode {
+		font-family : 'Consolas','Courier New','Courier','monospace';
+		font-size: 9pt;
+		border: 1px solid Black;
+		border-bottom: 0px;
+		background-color: #ddd;
 	}
 	
 	#changelog {
@@ -28,42 +38,88 @@
 	  margin-top: 0em;
 	  margin-bottom: 0em;
 	}
+	sup {
+		font-size: 0.75em;
+	}
+
+	div.statusBar {
+		border 			: 1px solid #CCC;
+	}
+
+	img.battery {
+	    position: relative;
+	    top: 50%; 
+	    transform: translateY(-50%);
+	    -webkit-transform: translateY(-50%);
+	}
+
 	</style>
 	<script language="javascript">
+	var tints = [];
+	tints['Facebook'] = {name:'Facebook',backgroundColor:'#3b5998',tint:'255,255,255'};
+	tints['Black'] = {name:'Black',backgroundColor:'#000',tint:'255,255,255'};
+	tints['White'] = {name:'White',backgroundColor:'#FFF',tint:'0,0,0'};
+	tints['Twitter'] = {name:'Twitter',backgroundColor:'#00aced',tint:'255,255,255'};
+	tints['Evernote'] = {name:'Evernote',backgroundColor:'#6FB536',tint:'0,0,0'};
+	tints['Instagram'] = {name:'Instagram',backgroundColor:'#517fa4',tint:'255,255,255'};
+	tints['LinkedIn'] = {name:'LinkedIn',backgroundColor:'#007bb6',tint:'255,255,255'};
 
-	</script>
-	<script language="javascript">
 	function settingsChange() {
 		var code=document.getElementById('code').value;
 		
 		var renderBattery = new Function('height', 'percentage', 'charging', 'low', 'color', code);
 		
+		var statusBackground = document.getElementById('cboBackground').options[document.getElementById('cboBackground').selectedIndex].value;
+
+		var statusBackgroundColor = tints[statusBackground].backgroundColor;
+		document.getElementById('txtColor').value = tints[statusBackground].tint;
+
+		var colors = document.getElementById('txtColor').value;
+		var colors = colors.split(',');
+
+
 		var height = document.getElementById('cboHeight').options[document.getElementById('cboHeight').selectedIndex].value;
 		
 		var isCharging = document.getElementById('isCharging').checked;
 		
 		var isLow = document.getElementById('isLow').checked;
 		
-		var colors = document.getElementById('txtColor').value;
-		
-		var colors = colors.split(',');
 
 		var percs=[10,20,50,75,100];
 		
 		var samples = document.getElementById('samples');
 		
 		for(var i=0;i<percs.length;i++) {
-			img = document.getElementById('img'+percs[i]);
+			var div = document.getElementById('div'+percs[i]);
+			var img = document.getElementById('img'+percs[i]);
+
+			if (!div) {
+
+
+				div = document.createElement("div");
+				div.setAttribute('id','div'+percs[i]);
+				div.setAttribute('class','statusBar');
+				
+
+				if (i>0) {
+					samples.appendChild(document.createElement('br'));
+				}
+	
+				samples.appendChild(div);
+
+			}
+			div.style.height = height;
+			div.style.backgroundColor = statusBackgroundColor;
 			
 			if (!img) {
-				var img=document.createElement("img");
+				img=document.createElement("img");
 				img.setAttribute('id','img'+percs[i]);
+				img.setAttribute('align','right');
+				img.setAttribute('class','battery');
 				
-				if (i>0) {
-					samples.appendChild(document.createElement('hr'));
-				}
 				//samples.appendChild(document.createTextNode(percs[i] + ' '));
-				samples.appendChild(img);
+				div.appendChild(img);
+				div.appendChild(document.createTextNode(' '));
 				
 			}
 			img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
@@ -72,7 +128,17 @@
 		
 	}
 			
+	function init() {
+		var cbo = document.getElementById('cboBackground');
+		for (itint in tints) {
 
+			var newOpt = document.createElement('option');
+			newOpt.text = tints[itint].name;
+			newOpt.value = tints[itint].name;
+			cbo.add(newOpt);
+		}
+
+	}
 	</script>
 </head>
 <body>
@@ -82,13 +148,13 @@
 		<td valign="top">
 			Code:
 			<hr>
+			<div id="divCode">function renderBattery(height, percentage, charging, low, color)</div>
 			<textarea id="code" rows="50" cols="100" width="30%" onkeyup="settingsChange()">
-//(height, percentage, charging, low, color)
-/* remove the slashes in front on the line above when saving */
 {
     /* just keep these */
     var canvas  = document.createElement("canvas"),
-        context = canvas.getContext("2d");
+        context = canvas.getContext("2d"),
+      	tint = "rgba(" + color.join() + ",1)";
 
     /* prepare the dimensions */
     /* barHeight = three-quarters of the statusBar */
@@ -110,12 +176,15 @@
 
     /* draw the borders */
     context.lineWidth = borderWidth;
-    var colorString = color.join();
-    context.strokeStyle = "rgba(" + colorString + ",1)";
+    
+    context.strokeStyle = tint;
     context.strokeRect(0, 0, barWidth, barHeight);
 
     /* draw the charge */
-    context.fillStyle = "#0F0"; /* green */
+    context.fillStyle = tint;
+    if (charging) {
+        context.fillStyle = '#0F0';
+    }
     /* if not charging and low or not charging and level is 20% and below */
     if (!charging && low || !charging && percentage <= 20) {
         context.fillStyle = "#F00"; /* red */
@@ -126,7 +195,7 @@
 		innerHeight);
 
     /* some text */
-    context.fillStyle = "#000"; 
+    context.fillStyle = '#BBB';
     context.font = (innerHeight*0.80) + "px Courier";
     context.textAlign = "center";
     context.textBaseline = "middle";
@@ -142,36 +211,55 @@
 			</textarea>
 		</td>
 		<td valign="top" align="left" width="50%">
-			Styles:
+			Preview:
 			<hr>		
 			<table border="0">
 				<tr>
-					<td>Height</td>
-					<td>: <select id="cboHeight" onchange="settingsChange()">
+					<td valign="middle">Status Background</td>
+					<td>
+						<select id="cboBackground" onchange="settingsChange();" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="middle">Status Height</td>
+					<td><select id="cboHeight" onchange="settingsChange()">
 						<option value="20">20
-						<option value="40">40
+						<option value="40" selected>40
 						<option value="48">48
 						<option value="60">60
 						<option value="72">72
-					</select></td>
+					</select>
+					<br>
+					<sup>This is the height of the status bar</sup>
+					</td>
 				</tr>
 				<tr>
-					<td>Charging</td>
-					<td>: <input id="isCharging" type="checkBox" onclick="settingsChange()">
+					<td>Battery Charging</td>
+					<td>
+						<input id="isCharging" type="checkBox" onclick="settingsChange()">
+						<br>
+						<sup>Tick this to see how it looks like when charging</sup>
+					</td>					
 				</tr>
 				<tr>
-					<td>Low</td>
-					<td>: <input id="isLow" type="checkBox" onclick="settingsChange()">
+					<td>Battery Low</td>
+					<td>
+						<input id="isLow" type="checkBox" onclick="settingsChange()">
+						<br>
+						<sup>Tick this to see how it looks like when battery is low</sup>
+					<td>						
 				</tr>
 				<tr>
-					<td>Color</td>
-					<td>: <input id="txtColor" type="text" value="0,0,256" onchange="settingsChange()">
-					<sup style="font-size:8pt">(separate by comma)</sup>
+					<td>System Tint</td>
+					<td><input id="txtColor" type="text" value="0,0,0" onchange="settingsChange()">
+					<br>
+					<sup>Separate the values comma. This is the system tint. Some tweaks like Eclipse can change this.</sup>
 				</tr>
 				<tr>
-					<td valign="top">Samples</td>
-					<td id="samples"></td>
-					
+					<td valign="top" colspan="2">Samples</td>
+				</tr>
+				<tr>
+					<td id="samples" colspan="2"></td>
 				</tr>
 			</table>
 			<hr>
@@ -179,6 +267,7 @@
 			<br>
 			<br>
 			<div id="changelog">
+				<p>v0.30 : Added status bar background+dynamic tint</p>
 				<p>v0.21 : Add sample code for putting text</p>
 				<p>v0.20 : Simpler sample with comments</p>
 				<p>v0.10 : First Release</p>
@@ -189,6 +278,7 @@
 </table>
 
 <script language="javascript">
+	init();
 	settingsChange();
 </script>
 </body>
