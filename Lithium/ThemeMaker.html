@@ -1,0 +1,174 @@
+<html>
+<head>
+	<title>Lithium Theme Editor by @supermamon</title>
+	<style type="text/css">
+	* {
+		font-family : 'Helvetica'
+	}
+	
+	#code {
+		font-family : 'Consolas','Courier New','Courier','monospace';
+		font-size: 9pt;
+	}
+	</style>
+	<script language="javascript">
+
+	</script>
+	<script language="javascript">
+	function settingsChange() {
+		var code=document.getElementById('code').value;
+		
+		var renderBattery = new Function('height', 'percentage', 'charging', 'low', 'color', code);
+		
+		var height = document.getElementById('cboHeight').options[document.getElementById('cboHeight').selectedIndex].value;
+		
+		var isCharging = document.getElementById('isCharging').checked;
+		
+		var isLow = document.getElementById('isLow').checked;
+		
+		var colors = document.getElementById('txtColor').value;
+		
+		var colors = colors.split(',');
+
+		var percs=[10,20,50,75,100];
+		
+		var samples = document.getElementById('samples');
+		
+		for(var i=0;i<percs.length;i++) {
+			img = document.getElementById('img'+percs[i]);
+			
+			if (!img) {
+				var img=document.createElement("img");
+				img.setAttribute('id','img'+percs[i]);
+				
+				if (i>0) {
+					samples.appendChild(document.createElement('hr'));
+				}
+				//samples.appendChild(document.createTextNode(percs[i] + ' '));
+				samples.appendChild(img);
+				
+			}
+			img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
+			
+		}
+		
+	}
+			
+
+	</script>
+</head>
+<body>
+<h2>Lithium Theme Editor</h2>
+<table width="100%" border="0">
+	<tr>
+		<td valign="top">
+			Code:
+			<hr>
+			<textarea id="code" rows="50" cols="100" width="30%">
+{
+    var colorString = "rgb(" + color.join() + ")",
+        scale = Math.floor(height / 20),
+        halfHearts = Math.ceil(percentage / 5),
+        fullHeartData,
+        halfHeartData,
+        emptyHeartData,
+        finalCanvas = document.createElement("canvas"),
+        finalContext = finalCanvas.getContext("2d");
+    function initHeart(canvas, context) {
+        canvas.width = scale * 8;
+        canvas.height = scale * 7;
+        context.fillStyle = colorString;
+        context.fillRect(0, 0, scale * 8, scale * 7);
+        context.clearRect(0, 0, scale, scale);
+        context.clearRect(scale * 3, 0, scale, scale);
+        context.clearRect(scale * 7, 0, scale, scale);
+        context.clearRect(0, scale * 4, scale, scale);
+        context.clearRect(scale * 7, scale * 4, scale, scale);
+        context.clearRect(0, scale * 5, scale * 2, scale * 2);
+        context.clearRect(scale * 6, scale * 5, scale * 2, scale * 2);
+        context.clearRect(scale * 2, scale * 6, scale, scale);
+        context.clearRect(scale * 5, scale * 6, scale, scale);
+    }
+    if(halfHearts > 1) {
+        var fullHeartCanvas = document.createElement("canvas"),
+            fullHeartContext = fullHeartCanvas.getContext("2d");
+        initHeart(fullHeartCanvas, fullHeartContext);
+        fullHeartData = fullHeartContext.getImageData(0, 0, scale * 8, scale * 7);
+    }
+    if(halfHearts % 2 == 1) {
+        var halfHeartCanvas = document.createElement("canvas"),
+            halfHeartContext = halfHeartCanvas.getContext("2d")
+        initHeart(halfHeartCanvas, halfHeartContext);
+        halfHeartContext.clearRect(scale * 4, scale, scale * 3, scale * 3);
+        halfHeartContext.clearRect(scale * 4, scale * 4, scale * 2, scale);
+        halfHeartContext.clearRect(scale * 4, scale * 5, scale, scale);
+        halfHeartData = halfHeartContext.getImageData(0, 0, scale * 8, scale * 7);
+    }
+    if(halfHearts < 19) {
+        var emptyHeartCanvas = document.createElement("canvas"),
+            emptyHeartContext = emptyHeartCanvas.getContext("2d");
+        initHeart(emptyHeartCanvas, emptyHeartContext);
+        emptyHeartContext.clearRect(scale, scale, scale * 2, scale);
+        emptyHeartContext.clearRect(scale * 4, scale, scale * 3, scale);
+        emptyHeartContext.clearRect(scale, scale * 2, scale * 6, scale * 2);
+        emptyHeartContext.clearRect(scale * 2, scale * 4, scale * 4, scale);
+        emptyHeartContext.clearRect(scale * 3, scale * 5, scale * 2, scale);
+        emptyHeartData = emptyHeartContext.getImageData(0, 0, scale * 8, scale * 7);
+    }
+    finalCanvas.width = scale * 44;
+    finalCanvas.height = scale * 16;
+    for(var i = 0; i < 10; i++) {
+        finalContext.putImageData((halfHearts >= (i + 1) * 2) ? fullHeartData : (halfHearts - (i * 2) == 1) ? halfHeartData : emptyHeartData, (i % 5) * scale * 9, i < 5 ? scale * 9 : 0);
+    }
+    return finalCanvas.toDataURL("image/png");
+}			
+			</textarea>
+		</td>
+		<td valign="top" align="left" width="50%">
+			Styles:
+			<hr>		
+			<table border="0">
+				<tr>
+					<td>Height</td>
+					<td>: <select id="cboHeight" onchange="settingsChange()">
+						<option value="20">20
+						<option value="40">40
+						<option value="48">48
+						<option value="60">60
+						<option value="72">72
+					</select></td>
+				</tr>
+				<tr>
+					<td>Charging</td>
+					<td>: <input id="isCharging" type="checkBox" onclick="settingsChange()">
+				</tr>
+				<tr>
+					<td>Low</td>
+					<td>: <input id="isLow" type="checkBox" onclick="settingsChange()">
+				</tr>
+				<tr>
+					<td>Color</td>
+					<td>: <input id="txtColor" type="text" value="0,0,0" onchange="settingsChange()">
+					<sup style="font-size:8pt">(separate by comma)</sup>
+				</tr>
+				<tr>
+					<td valign="top">Samples</td>
+					<td id="samples">&nbsp;</td>
+					
+				</tr>
+			</table>
+			<hr>
+			by <a href="https://twitter.com/supermamon/">@supermamon</a>
+		</td>
+	</tr>
+</table>
+
+
+
+<script language="javascript">
+	settingsChange();
+</script>
+</body>
+
+
+</html>
