@@ -1,11 +1,13 @@
 <html>
 <head>
-	<title>Lithium Theme Editor v0.2 by @supermamon</title>
+	<title>Lithium Theme Editor v0.21 by @supermamon</title>
 	<style type="text/css">
 	* {
-		font-family : 'Helvetica'
+		font-family : 'Helvetica';
 	}
-	
+	td {
+		font-size : 0.8em;
+	}
 	#code {
 		font-family : 'Consolas','Courier New','Courier','monospace';
 		font-size: 9pt;
@@ -17,6 +19,12 @@
 	}
 	
 	#changelog p {
+	  margin-top: 0em;
+	  margin-bottom: 0em;
+	}
+	
+	h2 {
+	  font-size : 1.5em;
 	  margin-top: 0em;
 	  margin-bottom: 0em;
 	}
@@ -74,27 +82,29 @@
 		<td valign="top">
 			Code:
 			<hr>
-			<textarea id="code" rows="50" cols="100" width="30%">
+			<textarea id="code" rows="50" cols="100" width="30%" onkeyup="settingsChange()">
+//(height, percentage, charging, low, color)
+/* remove the slashes in front on the line above when saving */
 {
     /* just keep these */
-    var canvas = document.createElement("canvas"),
+    var canvas  = document.createElement("canvas"),
         context = canvas.getContext("2d");
 
     /* prepare the dimensions */
-    // barHeight = one-tenth of the statusBar
-    var barHeight = Math.round(height * 1 / 5);
+    /* barHeight = three-quarters of the statusBar */
+    var barHeight = Math.round(height * 3/4);
 
-    // barWidth = 5 times the height
-    var barWidth = barHeight*5;
+    /* barWidth = 4 times the height */
+    var barWidth = barHeight*4;
 
-    // how thick is the border
+    /* how thick is the border */
     var borderWidth = 1;
 
-    // inner dimensions
+    /* inner dimensions */
     var innerHeight = barHeight-borderWidth*2;
     var innerWidth  = barWidth-borderWidth*2;
 
-    // set the dimensions
+    /* set the dimensions */
     canvas.width = barWidth;
     canvas.height = barHeight;
 
@@ -105,16 +115,30 @@
     context.strokeRect(0, 0, barWidth, barHeight);
 
     /* draw the charge */
-    context.fillStyle = "#0F0"; // green
-    // if not charging 
-    if (!charging && low) {
-        context.fillStyle = "#F00"; //red
+    context.fillStyle = "#0F0"; /* green */
+    /* if not charging and low or not charging and level is 20% and below */
+    if (!charging && low || !charging && percentage <= 20) {
+        context.fillStyle = "#F00"; /* red */
     }
-    context.fillRect(borderWidth, borderWidth, (innerWidth*(percentage/100)), innerHeight);
+    context.fillRect(
+		borderWidth, borderWidth, 
+		Math.round(innerWidth*(percentage/100)), 
+		innerHeight);
+
+    /* some text */
+    context.fillStyle = "#000"; 
+    context.font = (innerHeight*0.80) + "px Courier";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(
+		percentage, 
+		Math.round(borderWidth+innerWidth/2), 
+		Math.round(borderWidth*2+innerHeight/2));
 
     /* send the image back */
     return canvas.toDataURL("image/png");
 }			
+					
 			</textarea>
 		</td>
 		<td valign="top" align="left" width="50%">
@@ -146,7 +170,7 @@
 				</tr>
 				<tr>
 					<td valign="top">Samples</td>
-					<td id="samples">&nbsp;</td>
+					<td id="samples"></td>
 					
 				</tr>
 			</table>
@@ -155,15 +179,14 @@
 			<br>
 			<br>
 			<div id="changelog">
-				<p>v0.2 : Simpler sample with comments</p>
-				<p>v0.1 : First Release</p>
+				<p>v0.21 : Add sample code for putting text</p>
+				<p>v0.20 : Simpler sample with comments</p>
+				<p>v0.10 : First Release</p>
 			
 			</div>
 		</td>
 	</tr>
 </table>
-
-
 
 <script language="javascript">
 	settingsChange();
