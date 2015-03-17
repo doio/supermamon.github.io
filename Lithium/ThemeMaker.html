@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Lithium Theme Editor v0.31 by @supermamon</title>
+	<title>Lithium Theme Editor v0.32 by @supermamon</title>
 	<style type="text/css">
 	* {
 		font-family : 'Helvetica';
@@ -26,16 +26,18 @@
 	#changelog {
 		font-family : 'Helvetica', 'Arial','Tahoma','sans-serif';
 		font-size: 8pt;
+		  height: 50px;
+		  overflow:Auto;
+	}
+	#changelog p {
+	  margin-top: 0em;
+	  margin-bottom: 0em;
 	}
 	#help {
 		font-family : 'Helvetica', 'Arial','Tahoma','sans-serif';
 		font-size: 8pt;
 	}
 	
-	#changelog p {
-	  margin-top: 0em;
-	  margin-bottom: 0em;
-	}
 	
 	h2 {
 	  font-size : 1.5em;
@@ -75,8 +77,13 @@
 		
 		var statusBackground = document.getElementById('cboBackground').options[document.getElementById('cboBackground').selectedIndex].value;
 		var statusBackgroundColor = tints[statusBackground].backgroundColor;
-		document.getElementById('txtColor').value = tints[statusBackground].tint;
-
+		
+		var isCustomTint = document.getElementById('isCustomTint').checked;
+		
+		if (!isCustomTint) {
+			document.getElementById('txtColor').value = tints[statusBackground].tint;
+		}
+		
 		var colors = document.getElementById('txtColor').value;
 		var colors = colors.split(',');
 
@@ -150,10 +157,7 @@
       	tintTransparent = "rgba(" + color.join() + ",0)";
 
     /* prepare the dimensions */
-    /* barHeight = three-quarters of the statusBar */
-    var barHeight = Math.round(height * 3/4);
-
-    /* barWidth = 3 times the height */
+    var barHeight = Math.round(height * 3/4); 
     var barWidth = barHeight*3;
 
     /* how thick is the border */
@@ -178,7 +182,7 @@
 
     /* if not charging and low or not charging and level is 20% and below */
     if (!charging && low || !charging && percentage <= 20) {
-        context.fillStyle = "#F00"; /* red */
+        context.fillStyle = "#F00"; 
     }
     context.fillRect(
 		borderWidth, borderWidth, 
@@ -236,6 +240,7 @@
 					<td>Battery Low</td>
 					<td>
 						<input id="isLow" type="checkBox" onclick="settingsChange()">
+						
 						<br>
 						<sup>Tick this to see how it looks like when battery is low</sup>
 					<td>						
@@ -243,6 +248,7 @@
 				<tr>
 					<td>System Tint</td>
 					<td><input id="txtColor" type="text" value="0,0,0" onchange="settingsChange()">
+					<input id="isCustomTint" type="checkBox" onclick="settingsChange()">Use Custom
 					<br>
 					<sup>Separate the values comma. This is the system tint. Some tweaks like Eclipse can change this.</sup>
 				</tr>
@@ -262,6 +268,7 @@
 					<li><a href="http://aarzee.me/lithium/tutorial.html">Lithium Tutorial</a></li>
 					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">Canvas Tutorial by MDN</a></li>
 					<li><a href="http://diveintohtml5.info/canvas.html">Canvas - Dive Into HML5</a></li>
+					<li><a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-element/">HTML Canvas Tutorials</a></li>
 					<li><a href="http://www.w3schools.com/canvas/default.asp">HTML Canvas by W3Schools</a></li>
 				</ul>
 				</p>
@@ -269,6 +276,7 @@
 			<br>
 			<div id="changelog">
 				<p><b>Changelog</b></p>
+				<p>v0.32 : Bugfix: Custom tint can now be used by ticking Use Custom.</p>
 				<p>v0.31 : Modifed sample script. Added Viber background.</p>
 				<p>v0.30 : Added status bar background+dynamic tint</p>
 				<p>v0.21 : Add sample code for putting text</p>
@@ -279,7 +287,8 @@
 	</tr>
 </table>
 <!-- Start of SimpleHitCounter Code -->
-<div align="center"><a href="http://www.simplehitcounter.com" target="_blank"><img src="http://simplehitcounter.com/hit.php?uid=1874119&f=0&b=16777215" border="0" height="18" width="83" alt="web counter"></a>
+<div align="center">
+<a href="http://www.simplehitcounter.com" target="_blank"><!--img src="http://simplehitcounter.com/hit.php?uid=1874119&f=0&b=16777215" border="0" height="18" width="83" alt="web counter"--></a>
 <!--br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a-->
 </div>
 <!-- End of SimpleHitCounter Code -->
