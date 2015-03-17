@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Lithium Theme Editor v0.30 by @supermamon</title>
+	<title>Lithium Theme Editor v0.31 by @supermamon</title>
 	<style type="text/css">
 	* {
 		font-family : 'Helvetica';
@@ -24,6 +24,10 @@
 	}
 	
 	#changelog {
+		font-family : 'Helvetica', 'Arial','Tahoma','sans-serif';
+		font-size: 8pt;
+	}
+	#help {
 		font-family : 'Helvetica', 'Arial','Tahoma','sans-serif';
 		font-size: 8pt;
 	}
@@ -56,35 +60,30 @@
 	</style>
 	<script language="javascript">
 	var tints = [];
-	tints['Facebook'] = {name:'Facebook',backgroundColor:'#3b5998',tint:'255,255,255'};
-	tints['Black'] = {name:'Black',backgroundColor:'#000',tint:'255,255,255'};
 	tints['White'] = {name:'White',backgroundColor:'#FFF',tint:'0,0,0'};
+	tints['Black'] = {name:'Black',backgroundColor:'#000',tint:'255,255,255'};
+	tints['Facebook'] = {name:'Facebook',backgroundColor:'#3b5998',tint:'255,255,255'};
 	tints['Twitter'] = {name:'Twitter',backgroundColor:'#00aced',tint:'255,255,255'};
 	tints['Evernote'] = {name:'Evernote',backgroundColor:'#6FB536',tint:'0,0,0'};
 	tints['Instagram'] = {name:'Instagram',backgroundColor:'#517fa4',tint:'255,255,255'};
 	tints['LinkedIn'] = {name:'LinkedIn',backgroundColor:'#007bb6',tint:'255,255,255'};
+	tints['Viber'] = {name:'Viber',backgroundColor:'#783cbd',tint:'255,255,255'};
 
 	function settingsChange() {
 		var code=document.getElementById('code').value;
-		
 		var renderBattery = new Function('height', 'percentage', 'charging', 'low', 'color', code);
 		
 		var statusBackground = document.getElementById('cboBackground').options[document.getElementById('cboBackground').selectedIndex].value;
-
 		var statusBackgroundColor = tints[statusBackground].backgroundColor;
 		document.getElementById('txtColor').value = tints[statusBackground].tint;
 
 		var colors = document.getElementById('txtColor').value;
 		var colors = colors.split(',');
 
-
 		var height = document.getElementById('cboHeight').options[document.getElementById('cboHeight').selectedIndex].value;
-		
 		var isCharging = document.getElementById('isCharging').checked;
-		
 		var isLow = document.getElementById('isLow').checked;
 		
-
 		var percs=[10,20,50,75,100];
 		
 		var samples = document.getElementById('samples');
@@ -95,11 +94,9 @@
 
 			if (!div) {
 
-
 				div = document.createElement("div");
 				div.setAttribute('id','div'+percs[i]);
 				div.setAttribute('class','statusBar');
-				
 
 				if (i>0) {
 					samples.appendChild(document.createElement('br'));
@@ -116,28 +113,22 @@
 				img.setAttribute('id','img'+percs[i]);
 				img.setAttribute('align','right');
 				img.setAttribute('class','battery');
-				
-				//samples.appendChild(document.createTextNode(percs[i] + ' '));
 				div.appendChild(img);
 				div.appendChild(document.createTextNode(' '));
 				
 			}
 			img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
-			
 		}
-		
 	}
 			
 	function init() {
 		var cbo = document.getElementById('cboBackground');
 		for (itint in tints) {
-
 			var newOpt = document.createElement('option');
 			newOpt.text = tints[itint].name;
 			newOpt.value = tints[itint].name;
 			cbo.add(newOpt);
 		}
-
 	}
 	</script>
 </head>
@@ -148,23 +139,25 @@
 		<td valign="top">
 			Code:
 			<hr>
-			<div id="divCode">function renderBattery(height, percentage, charging, low, color)</div>
+			<div id="divCode">function renderBattery</div>
 			<textarea id="code" rows="50" cols="100" width="30%" onkeyup="settingsChange()">
+(height, percentage, charging, low, color)
 {
     /* just keep these */
     var canvas  = document.createElement("canvas"),
         context = canvas.getContext("2d"),
-      	tint = "rgba(" + color.join() + ",1)";
+      	tintOpaque = "rgba(" + color.join() + ",1)",
+      	tintTransparent = "rgba(" + color.join() + ",0)";
 
     /* prepare the dimensions */
     /* barHeight = three-quarters of the statusBar */
     var barHeight = Math.round(height * 3/4);
 
-    /* barWidth = 4 times the height */
-    var barWidth = barHeight*4;
+    /* barWidth = 3 times the height */
+    var barWidth = barHeight*3;
 
     /* how thick is the border */
-    var borderWidth = 1;
+    var borderWidth = 2;
 
     /* inner dimensions */
     var innerHeight = barHeight-borderWidth*2;
@@ -176,15 +169,13 @@
 
     /* draw the borders */
     context.lineWidth = borderWidth;
-    
-    context.strokeStyle = tint;
+    context.strokeStyle = tintOpaque;
     context.strokeRect(0, 0, barWidth, barHeight);
 
     /* draw the charge */
-    context.fillStyle = tint;
-    if (charging) {
-        context.fillStyle = '#0F0';
-    }
+    context.fillStyle = tintOpaque;
+    if (charging) {context.fillStyle = '#0F0';}
+
     /* if not charging and low or not charging and level is 20% and below */
     if (!charging && low || !charging && percentage <= 20) {
         context.fillStyle = "#F00"; /* red */
@@ -194,8 +185,9 @@
 		Math.round(innerWidth*(percentage/100)), 
 		innerHeight);
 
-    /* some text */
-    context.fillStyle = '#BBB';
+    /* text */
+    context.globalCompositeOperation = "xor";
+    context.fillStyle = tintOpaque ;
     context.font = (innerHeight*0.80) + "px Courier";
     context.textAlign = "center";
     context.textBaseline = "middle";
@@ -203,12 +195,11 @@
 		percentage, 
 		Math.round(borderWidth+innerWidth/2), 
 		Math.round(borderWidth*2+innerHeight/2));
+    context.globalCompositeOperation = "source-over";
 
-    /* send the image back */
+    /* send the image */
     return canvas.toDataURL("image/png");
-}			
-					
-			</textarea>
+}</textarea>
 		</td>
 		<td valign="top" align="left" width="50%">
 			Preview:
@@ -265,17 +256,33 @@
 			<hr>
 			by <a href="https://twitter.com/supermamon/">@supermamon</a>
 			<br>
+			<div id="help">
+				<p><b>Need help?</b>
+				<ul>
+					<li><a href="http://aarzee.me/lithium/tutorial.html">Lithium Tutorial</a></li>
+					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">Canvas Tutorial by MDN</a></li>
+					<li><a href="http://diveintohtml5.info/canvas.html">Canvas - Dive Into HML5</a></li>
+					<li><a href="http://www.w3schools.com/canvas/default.asp">HTML Canvas by W3Schools</a></li>
+				</ul>
+				</p>
+			</div>
 			<br>
 			<div id="changelog">
+				<p><b>Changelog</b></p>
+				<p>v0.31 : Modifed sample script. Added Viber background.</p>
 				<p>v0.30 : Added status bar background+dynamic tint</p>
 				<p>v0.21 : Add sample code for putting text</p>
 				<p>v0.20 : Simpler sample with comments</p>
 				<p>v0.10 : First Release</p>
-			
 			</div>
 		</td>
 	</tr>
 </table>
+<!-- Start of SimpleHitCounter Code -->
+<div align="center"><a href="http://www.simplehitcounter.com" target="_blank"><img src="http://simplehitcounter.com/hit.php?uid=1874119&f=0&b=16777215" border="0" height="18" width="83" alt="web counter"></a>
+<!--br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a-->
+</div>
+<!-- End of SimpleHitCounter Code -->
 
 <script language="javascript">
 	init();
