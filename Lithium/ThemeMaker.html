@@ -82,6 +82,7 @@
 	tints['Instagram']	= {name:'Instagram',backgroundColor:'#517fa4',tint:'255,255,255'};
 	tints['LinkedIn']	= {name:'LinkedIn',backgroundColor:'#007bb6',tint:'255,255,255'};
 	tints['Viber']		= {name:'Viber',backgroundColor:'#783cbd',tint:'255,255,255'};
+	tints['Transparent']= {name:'Transparent',backgroundColor:'#000',tint:'255,255,255'};
 
 	var themeSamples = [];
 	themeSamples[themeSamples.length] = 'SimpleBar';
@@ -97,6 +98,12 @@
 		
 		var statusBackground = document.getElementById('cboBackground').options[document.getElementById('cboBackground').selectedIndex].value;
 		var statusBackgroundColor = tints[statusBackground].backgroundColor;
+		var backgroundImage;
+		if (tints[statusBackground].name == 'Transparent')  {
+			backgroundImage = "url('" + document.getElementById('txtWallpaper').value + "')";
+		} else {
+			backgroundImage = null;
+		}
 		
 		var isCustomTint = document.getElementById('isCustomTint').checked;
 		
@@ -133,7 +140,11 @@
 
 			}
 			div.style.height = height+'px';
-			div.style.backgroundColor = statusBackgroundColor;
+			if (backgroundImage) {
+				div.style.backgroundImage  = backgroundImage;
+			} else {
+				div.style.backgroundColor = statusBackgroundColor;
+			}
 			
 			if (!img) {
 				img=document.createElement("img");
@@ -255,6 +266,15 @@
 					<sup>Separate the values comma. This is the system tint. Some tweaks like Eclipse can change this.</sup>
 				</tr>
 				<tr>
+					<td>Wallpaper</td>
+					<td><input id="txtWallpaper" type="text" size="50" onchange="settingsChange()" value="images/os_x_mountain_lion.png">
+					<br>
+					<sup>Only applies when Transparent background is selected. You can specify the full URL here.
+					<br>
+					Doesn't detect light or dark wallpapers. Assumes dark. Set Custom System tint (0,0,0) to simulate light wallpaper.
+					</sup>
+				</tr>
+				<tr>
 					<td valign="top" colspan="2">How it looks like?</td>
 				</tr>
 				<tr>
@@ -280,6 +300,7 @@
 				<td valign="top">
 					<b>Changelog</b>
 					<div id="changelog">
+						<p>v0.5.0 : Use Wallpaper for transparent status bar.</p>
 						<p>v0.4.1 : Minor changes to SimpleBar sample.</p>
 						<p>v0.4.0 : Added Sample Code picker.</p>
 						<p>v0.3.2 : Bugfix: Custom tint can now be used by ticking Use Custom.</p>
