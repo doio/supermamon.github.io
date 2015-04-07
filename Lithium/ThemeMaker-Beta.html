@@ -101,6 +101,7 @@ v2.0.0 - Theme Builder, point and click
 	themeSamples[themeSamples.length] = 'Habesha';
 	themeSamples[themeSamples.length] = 'Hearts';
 	themeSamples[themeSamples.length] = 'Dots';
+	themeSamples[themeSamples.length] = 'Empty';
 	themeSamples[themeSamples.length] = 'Customizable';
 	
 	function settingsChange() {
@@ -153,8 +154,10 @@ v2.0.0 - Theme Builder, point and click
 			div.style.height = height+'px';
 			if (backgroundImage) {
 				div.style.backgroundImage  = backgroundImage;
+				
 			} else {
 				div.style.backgroundColor = statusBackgroundColor;
+				div.style.backgroundImage = null;
 			}
 			
 			if (!img) {
@@ -311,6 +314,7 @@ v2.0.0 - Theme Builder, point and click
 				<td valign="top">
 					<b>Changelog</b>
 					<div id="changelog">
+						<p>v0.5.1 : Bugfix: Background color now applies back after choosing from Transparent.</p>
 						<p>v0.5.0 : Use Wallpaper for transparent status bar.</p>
 						<p>v0.4.1 : Minor changes to SimpleBar sample.</p>
 						<p>v0.4.0 : Added Sample Code picker.</p>
@@ -645,6 +649,25 @@ return canvas.toDataURL("image/png");
         finalContext.putImageData((halfHearts >= (i + 1) * 2) ? fullHeartData : (halfHearts - (i * 2) == 1) ? halfHeartData : emptyHeartData, (i % 5) * scale * 9, i < 5 ? scale * 9 : 0);
     }
     return finalCanvas.toDataURL("image/png");
+}</textarea>
+<textarea id="sampleEmpty" class="hidden">(height, percentage, charging, low, color)
+{
+var 
+    canvas     = document.createElement("canvas"),
+    context    = canvas.getContext("2d"),
+    tintOpaque = "rgba(" + color.join() + ",1)",
+    tintTransP = "rgba(" + color.join() + ",0)",
+    tintTransL = "rgba(" + color.join() + ",0.5)";
+
+var 
+    canvasHeight  = Math.round(height * 1),
+    canvasWidth   = Math.round(height * 1);
+
+canvas.width  = canvasWidth;
+canvas.height = canvasHeight;
+	
+/* send the image */
+return canvas.toDataURL("image/png");
 }</textarea>
 <textarea id="sampleCustomizable" class="hidden">(height, percentage, charging, low, color)
 {
