@@ -1,0 +1,5 @@
+Lithium Theme Maker
+
+15.06b.26-1 | @supermamon ------------------------------------------------------
+- start this change log.
+- Add showing standard icons to the roadmap.
