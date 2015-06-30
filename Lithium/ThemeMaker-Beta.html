@@ -1,6 +1,6 @@
 <html>
 <!--
-Current Version : 5.1
+Current Version : 5.2
 	
 Roadmap
 v0.5.0 - Use Wallpaper for transparent status bar - DONE
@@ -85,7 +85,6 @@ v2.0.0 - Theme Builder, point and click
 	}
 	</style>
 	<script language="javascript">
-		
 	var tints = [];
 	tints['White']		= {name:'White',backgroundColor:'#FFF',tint:'0,0,0'};
 	tints['Black']		= {name:'Black',backgroundColor:'#000',tint:'255,255,255'};
@@ -104,6 +103,7 @@ v2.0.0 - Theme Builder, point and click
 	themeSamples[themeSamples.length] = 'Habesha';
 	themeSamples[themeSamples.length] = 'Hearts';
 	themeSamples[themeSamples.length] = 'Dots';
+	themeSamples[themeSamples.length] = 'LN-Speedometer';
 	themeSamples[themeSamples.length] = 'Empty';
 	themeSamples[themeSamples.length] = 'Customizable';
 	
@@ -317,6 +317,7 @@ v2.0.0 - Theme Builder, point and click
 				<td valign="top">
 					<b>Changelog</b>
 					<div id="changelog">
+						<p>v0.5.2 : Added sample theme LN-Speedometer.</p>
 						<p>v0.5.1 : Bugfix: Background color now applies back after choosing from Transparent.</p>
 						<p>v0.5.0 : Use Wallpaper for transparent status bar.</p>
 						<p>v0.4.1 : Minor changes to SimpleBar sample.</p>
@@ -652,6 +653,95 @@ return canvas.toDataURL("image/png");
         finalContext.putImageData((halfHearts >= (i + 1) * 2) ? fullHeartData : (halfHearts - (i * 2) == 1) ? halfHeartData : emptyHeartData, (i % 5) * scale * 9, i < 5 ? scale * 9 : 0);
     }
     return finalCanvas.toDataURL("image/png");
+}</textarea>
+<textarea id="sampleLN-Speedometer" class="hidden">(height, percentage, charging, low, color)
+{
+/* LN-Speedometer by @supermamon */
+/* just keep these */
+var canvas      = document.createElement("canvas"),
+    context     = canvas.getContext("2d"),
+    tintOpaque  = "rgba(" + color.join() + ",1)",
+    tintTransP  = "rgba(" + color.join() + ",0)",
+    tintTransL  = "rgba(" + color.join() + ",0)";
+
+
+/* prepare the dimensions */
+var barHeight   = Math.round(height * 7/8); 
+var barWidth    = barHeight;
+
+/* set the dimensions */
+canvas.width    = barWidth;
+canvas.height   = barHeight;
+
+/* how thick is the border */
+var borderWidth = 1;
+
+/* prep */
+var pi=Math.PI, cx = barWidth-2, cy = barHeight, r = barHeight*0.8;
+
+/* background */
+context.lineWidth   = barHeight*0.12;
+context.beginPath();
+context.strokeStyle = tintOpaque;
+context.arc(cx,cy,r,pi,1.5*pi);
+context.stroke();
+/* red arc */
+context.lineWidth   = barHeight*0.1;
+context.beginPath();
+context.strokeStyle = "#F00";
+context.arc(cx,cy,r,(1+(0.5*0.00))*pi,(1+(0.5*0.20))*pi);
+context.stroke();
+/* yellow arc */
+context.beginPath();
+context.strokeStyle = "#FF0";
+context.arc(cx,cy,r,(1+(0.5*0.21))*pi,(1+(0.5*0.50))*pi);
+context.stroke();
+/* green arc */
+context.beginPath();
+context.strokeStyle = "#0F0";
+context.arc(cx,cy,r,(1+(0.5*0.51))*pi,(1+(0.5*1.00))*pi);
+context.stroke();
+/* pointer */
+context.beginPath();
+context.lineWidth   = barHeight*0.05;
+context.strokeStyle = tintOpaque;
+context.moveTo(cx,cy);
+var 
+    theta = pi*(1+0.5*percentage/100),
+    reduce = context.lineWidth+2,
+    ex = cx+(r-reduce)*Math.cos(theta),
+    ey = cy+(r-reduce)*Math.sin(theta);
+context.lineTo(ex,ey);
+context.stroke();
+
+/* text */
+context.globalCompositeOperation = "xor";
+context.fillStyle                = (charging ? '#0F0' : tintOpaque);
+context.font                     = (barHeight*0.30) + "px Verdana";
+context.textAlign                = "left";
+context.textBaseline             = "top";
+context.fillText(percentage,0,0);
+
+if (charging) {
+context.fillStyle                = '#0F0';
+context.font                     = (barHeight*0.4) + "px Verdana";
+context.textAlign                = "left";
+context.textBaseline             = "top";
+context.fillText('\u26a1',1,(barHeight*0.25));
+}
+
+if (low) {
+context.fillStyle                = '#F00';
+context.font                     = (barHeight*0.4) + "px Verdana";
+context.textAlign                = "left";
+context.textBaseline             = "top";
+context.fillText('!',1,(barHeight*0.35));
+
+}
+
+
+/* send the image */
+return canvas.toDataURL("image/png");
 }</textarea>
 <textarea id="sampleEmpty" class="hidden">(height, percentage, charging, low, color)
 {

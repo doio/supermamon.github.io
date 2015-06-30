@@ -1,5 +1,9 @@
 Lithium Theme Maker
 
+v0.5.2| @supermamon ------------------------------------------------------------
+- v0.5.2 - Add 
+
+
 15.06b.26-1 | @supermamon ------------------------------------------------------
 - start this change log.
 - Add showing standard icons to the roadmap.
