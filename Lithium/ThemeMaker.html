@@ -85,13 +85,14 @@
 	tints['Transparent']= {name:'Transparent',backgroundColor:'#000',tint:'255,255,255'};
 
 	var themeSamples = [];
-	themeSamples[themeSamples.length] = 'SimpleBar';
-	themeSamples[themeSamples.length] = 'Droid';
 	themeSamples[themeSamples.length] = 'LBI';
+	themeSamples[themeSamples.length] = 'Droid';
 	themeSamples[themeSamples.length] = 'Habesha';
 	themeSamples[themeSamples.length] = 'Hearts';
-	themeSamples[themeSamples.length] = 'Dots';
+	themeSamples[themeSamples.length] = 'LN-Simple';
+	themeSamples[themeSamples.length] = 'LN-Dots';
 	themeSamples[themeSamples.length] = 'LN-Speedometer';
+	themeSamples[themeSamples.length] = 'LN-BuildingBlocksTemplate';
 	
 	function settingsChange() {
 		var code=document.getElementById('code').value;
@@ -143,6 +144,7 @@
 			div.style.height = height+'px';
 			if (backgroundImage) {
 				div.style.backgroundImage  = backgroundImage;
+				
 			} else {
 				div.style.backgroundColor = statusBackgroundColor;
 				div.style.backgroundImage = null;
@@ -302,6 +304,7 @@
 				<td valign="top">
 					<b>Changelog</b>
 					<div id="changelog">
+					    <p>v0.6.0 : Added sample theme BuildingBlocksTemplate. Renamed some samples.</p>
 						<p>v0.5.2 : Added sample theme LN-Speedometer.</p>
 						<p>v0.5.1 : Bugfix: Background color now applies back after choosing from Transparent.</p>
 						<p>v0.5.0 : Use Wallpaper for transparent status bar.</p>
@@ -326,8 +329,8 @@
 <!--br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a-->
 </div>
 <!-- End of SimpleHitCounter Code -->
-
-<textarea id="sampleSimpleBar" class="hidden">(height, percentage, charging, low, color)
+<!-- ========================================================================-->
+<textarea id="sampleLN-Simple" class="hidden">(height, percentage, charging, low, color)
 {
 /* just keep these */
 var canvas      = document.createElement("canvas"),
@@ -389,7 +392,8 @@ context.globalCompositeOperation  = "source-over";
 /* send the image */
 return canvas.toDataURL("image/png");
 }</textarea>
-<textarea id="sampleDots" class="hidden">(height, percentage, charging, low, color) 
+<!-- ========================================================================-->
+<textarea id="sampleLN-Dots" class="hidden">(height, percentage, charging, low, color) 
 {
 /* prepare */
 var canvas  = document.createElement("canvas"),
@@ -453,6 +457,7 @@ return canvas.toDataURL("image/png");
 
 //end
 }</textarea>
+<!-- ========================================================================-->
 <textarea id="sampleDroid" class="hidden">(height, percentage, charging, low, color)
 {
     var barHeightMinusTwo = 2 * Math.round(height * 2 / 5),
@@ -492,6 +497,7 @@ return canvas.toDataURL("image/png");
     context.putImageData(imageData, 0, 0);
     return canvas.toDataURL("image/png");
 }</textarea>
+<!-- ========================================================================-->
 <textarea id="sampleLBI" class="hidden">(height, percentage, charging, low, color)
 {
     var radius = Math.round(height * 4 / 5) / 2,
@@ -525,6 +531,7 @@ return canvas.toDataURL("image/png");
     context.fillText(percentage, halfSize, halfSize);
     return canvas.toDataURL("image/png");
 }</textarea>
+<!-- ========================================================================-->
 <textarea id="sampleHabesha" class="hidden">(height, percentage, charging, low, color)
 {
     var emptyBarCanvas = document.createElement("canvas"),
@@ -581,6 +588,7 @@ return canvas.toDataURL("image/png");
     }
     return finalCanvas.toDataURL("image/png");
 }</textarea>
+<!-- ========================================================================-->
 <textarea id="sampleHearts" class="hidden">(height, percentage, charging, low, color)
 {
     var colorString = "rgb(" + color.join() + ")",
@@ -639,6 +647,7 @@ return canvas.toDataURL("image/png");
     }
     return finalCanvas.toDataURL("image/png");
 }</textarea>
+<!-- ========================================================================-->
 <textarea id="sampleLN-Speedometer" class="hidden">(height, percentage, charging, low, color)
 {
 /* LN-Speedometer by @supermamon */
@@ -728,6 +737,131 @@ context.fillText('!',1,(barHeight*0.35));
 /* send the image */
 return canvas.toDataURL("image/png");
 }</textarea>
+<!-- ========================================================================-->
+<textarea id="sampleLN-BuildingBlocksTemplate" class="hidden">(height, percentage, charging, low, color) 
+{
+/* ************************************************************************** *
+ *                  Lithium Building Blocks Theme Template                    *
+ *                            version 1.0.0                                   *
+ *                            by @supermamon                                  *
+ *                                                                            *          
+ * This is a customizable template that you can use to create your own theme. *
+ * Additional instructions are in the comments. If you have any questions,    *
+ * contact be via Twitter (@supermamon) or PM me on Reddit /u/supermamon.     *
+ *                                                                            *          
+ * Enjoy!                                                                     *
+ *                                                                            *          
+ * ************************************************************************** */
+ 
+var DEBUG_SHOW_GUIDELINES = false;         // show enclosing borders
+
+var 
+    barHeight  = Math.round(height * 4/8), // How high do you want your icons to be?
+    blockCount = 5,                        // how many do you want?
+    blockWidth = barHeight*1.0,            // how skinny/fat do you want them?
+    spacing    = 3;                        // how far away are they from each other?
+
+/* drawBlock function
+
+   This is the function that's being called to draw each block. 
+   3 samples for starters
+   Parameters are self-explanatory (I hope)
+   
+*/
+function drawBlock(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
+   drawTriangles(topX, topY, blockWidth, blockHeight, blockNumber, blockCount)
+   //drawDots(topX, topY, blockWidth, blockHeight, blockNumber, blockCount)
+   //drawSquares(topX, topY, blockWidth, blockHeight, blockNumber, blockCount)
+   
+}
+
+function drawTriangles(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
+    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
+        if (percentage<=20) { context.fillStyle = '#F00'}
+        if (charging) { context.fillStyle = '#0F0'}
+        context.strokeStyle = context.fillStyle;
+    }  
+
+    var path = new Path2D();
+    path.moveTo(topX               , topY+blockHeight); // bottom left
+    path.lineTo(topX+blockWidth    , topY+blockHeight); //bottom right
+    path.lineTo(topX+blockWidth/2  , topY); // top center
+    path.lineTo(topX               , topY+blockHeight); // bottom left
+    context.stroke(path);
+
+    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
+        context.fill(path);
+    }  
+}
+function drawDots(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
+    context.beginPath();
+    cx = topX + blockWidth/2;
+    cy = topY + blockHeight/2;
+    radius = blockWidth/2-1;
+    context.arc(cx,cy,radius,0,2*Math.PI);
+    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
+        if (percentage<=20) { context.fillStyle = '#F00'}
+        if (charging) { context.fillStyle = '#0F0'}
+        context.fill();
+    }
+    context.stroke();
+}
+
+function drawSquares(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
+    context.beginPath();
+    context.strokeRect( (i-1)*spacing+(i-1)*blockWidth, 0, blockWidth, barHeight);
+    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
+        if (percentage<=20) { context.fillStyle = '#F00'}
+        if (charging) { context.fillStyle = '#0F0'}
+        context.fillRect( topX, topY, blockWidth, blockHeight);
+    }
+    context.stroke();
+}
+
+/* ************************************************************************** */
+/*      DON'T EDIT BEYOND THIS LINES UNLESS YOU KNOW WHAT YOU ARE DOING       */
+/* ************************************************************************** */
+
+// setup the canvas
+var canvas  = document.createElement("canvas"),
+    context = canvas.getContext("2d"),
+    tintOpaque    = "rgba(" + color.join() + ",1)",
+    tintTransp    = "rgba(" + color.join() + ",0)",
+    tintTransl    = "rgba(" + color.join() + ",0.5)",
+    barWidth      = (blockWidth + spacing)*blockCount;
+
+canvas.height       = barHeight;
+canvas.width        = barWidth;
+context.lineWidth   = 1;
+ 
+// draw the guidelines
+if (DEBUG_SHOW_GUIDELINES) {
+	context.strokeStyle = tintOpaque;
+    context.strokeRect(0, 0, barWidth, barHeight);
+}
+    
+// loop through each block
+for (var i=1;i<=blockCount;i++) {
+
+    // defaults. can be overriden by the drawBlock function
+    context.strokeStyle = tintOpaque;
+    context.fillStyle   = tintOpaque;
+
+    // draw the guidelines 
+    if (DEBUG_SHOW_GUIDELINES) {
+        context.strokeRect( (i-1)*spacing+(i-1)*blockWidth, 0, blockWidth, barHeight);
+    }
+	
+    // draw block
+    drawBlock((i-1)*spacing+(i-1) * blockWidth, 0, blockWidth, barHeight, i, blockCount)
+    
+} // each block
+
+
+// send the image back
+return canvas.toDataURL("image/png");
+}</textarea>
+<!-- ========================================================================-->
 <script language="javascript">
 	init();
 	settingsChange();
