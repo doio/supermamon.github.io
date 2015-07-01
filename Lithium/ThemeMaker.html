@@ -1,156 +1,155 @@
 <html>
 <head>
 	<title>Lithium Theme Editor by @supermamon</title>
-	<style type="text/css">
-	* {
-		font-family : 'Helvetica';
-	}
-	.hidden {
-		display:none;
-	}
-	h2 {
-		display: inline;
-	  font-size : 1.5em;
-	  margin-top: 0em;
-	  margin-bottom: 0em;
-	}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/jquery.querystring.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/lithium.css">
+	<script type="text/javascript">
 	
-	td {
-		font-size : 0.8em;
-	}
+	var themes = [];
+	themes[themes.length] = 'Habesha.xml';	
+	themes[themes.length] = 'LBI.xml';	
+	themes[themes.length] = 'Droid.xml';
+	themes[themes.length] = 'Hearts.xml';	
+	themes[themes.length] = 'LN-Simple.xml';
+	themes[themes.length] = 'LN-Dots.xml';
+	themes[themes.length] = 'LN-Batthead.xml';
+	themes[themes.length] = 'LN-Speedometer.xml';
+	themes[themes.length] = 'LN-BuildingBlocksTemplate.xml';
 
-	#code {
-		/*text area*/
-		font-family : 'Consolas','Courier New','Courier','monospace';
-		font-size: 9pt;
-		border: 1px solid Black;
-		border-top: 0px;
-		width = '100%';
+	themes[themes.length] = 'Empty.xml';
 
-	}
-	#divCode {
-		/*function header*/
-		font-family : 'Consolas','Courier New','Courier','monospace';
-		font-size: 9pt;
-		border: 1px solid Black;
-		border-bottom: 0px;
-		background-color: #ddd;
-	}
-
-	sup {
-		font-size: 0.75em;
-	}
-
-	div.statusBar {
-		border		: 1px solid #CCC;
-		width		: 500px;
-		min-width	: 250px;
-	}
-
-	img.battery {
-	    position: relative;
-	    top: 50%; 
-	    transform: translateY(-50%);
-	    -webkit-transform: translateY(-50%);
-	}
-	
-	
-	#help {
-		font-family : 'Helvetica', 'Arial','Tahoma','sans-serif';
-		font-size: 8pt;
-	}
-	
-	#changelog {
-		padding-top: 8pt;
-		font-family : 'Helvetica', 'Arial','Tahoma','sans-serif';
-		font-size: 8pt;
-		height: 80px;
-		overflow:Auto;
-	}
-	#changelog p {
-	  margin-top: 0em;
-	  margin-bottom: 0em;
-	}
-	</style>
-	<script language="javascript">
 	var tints = [];
-	tints['White']		= {name:'White',backgroundColor:'#FFF',tint:'0,0,0'};
-	tints['Black']		= {name:'Black',backgroundColor:'#000',tint:'255,255,255'};
-	tints['Facebook']	= {name:'Facebook',backgroundColor:'#3b5998',tint:'255,255,255'};
-	tints['Twitter']	= {name:'Twitter',backgroundColor:'#00aced',tint:'255,255,255'};
-	tints['Evernote']	= {name:'Evernote',backgroundColor:'#6FB536',tint:'0,0,0'};
-	tints['Instagram']	= {name:'Instagram',backgroundColor:'#517fa4',tint:'255,255,255'};
-	tints['LinkedIn']	= {name:'LinkedIn',backgroundColor:'#007bb6',tint:'255,255,255'};
-	tints['Viber']		= {name:'Viber',backgroundColor:'#783cbd',tint:'255,255,255'};
-	tints['Transparent']= {name:'Transparent',backgroundColor:'#000',tint:'255,255,255'};
-
-	var themeSamples = [];
-	themeSamples[themeSamples.length] = 'LBI';
-	themeSamples[themeSamples.length] = 'Droid';
-	themeSamples[themeSamples.length] = 'Habesha';
-	themeSamples[themeSamples.length] = 'Hearts';
-	themeSamples[themeSamples.length] = 'LN-Simple';
-	themeSamples[themeSamples.length] = 'LN-Dots';
-	themeSamples[themeSamples.length] = 'LN-Speedometer';
-	themeSamples[themeSamples.length] = 'LN-BuildingBlocksTemplate';
+	tints['White']		= {name:'White'      ,backgroundColor:'#FFFFFF',tint:'0,0,0'};
+	tints['Black']		= {name:'Black'      ,backgroundColor:'#000000',tint:'255,255,255'};
+	tints['Facebook']	= {name:'Facebook'   ,backgroundColor:'#3b5998',tint:'255,255,255'};
+	tints['Twitter']	= {name:'Twitter'    ,backgroundColor:'#00aced',tint:'255,255,255'};
+	tints['Evernote']	= {name:'Evernote'   ,backgroundColor:'#6FB536',tint:'0,0,0'};
+	tints['Instagram']	= {name:'Instagram'  ,backgroundColor:'#517fa4',tint:'255,255,255'};
+	tints['LinkedIn']	= {name:'LinkedIn'   ,backgroundColor:'#007bb6',tint:'255,255,255'};
+	tints['Viber']		= {name:'Viber'      ,backgroundColor:'#783cbd',tint:'255,255,255'};
+	tints['Transparent']= {name:'Transparent',backgroundColor:'#000000',tint:'255,255,255'};
 	
-	function settingsChange() {
-		var code=document.getElementById('code').value;
-		var renderBattery = new Function('height', 'percentage', 'charging', 'low', 'color', code);
+	var LOADING_THEMES  = false;
+	
+    $( document ).ready(function() {
+        LOADING_THEMES = true;
+		for(var i=0;i<themes.length;i++) {
+			var xmlFile = themes[i];
+			$.ajax({
+				  type: "GET",
+				  async: false,
+				  url: xmlFile,
+				  dataType: "xml",
+				  success: function(xmlData) {
+						var themeName = xmlData.getElementsByTagName('theme')[0].getElementsByTagName('name')[0].innerHTML.trim()
+						$('#sampleChooser')
+							.append(
+								$("<option></option>")
+								.attr("selected",($.QueryString['p']==themeName?true:false ))
+								.attr("value",xmlFile)
+								.text(themeName)
+							);
+				  } //success
+			}); //ajax
+		} //for
 		
-		var statusBackground = document.getElementById('cboBackground').options[document.getElementById('cboBackground').selectedIndex].value;
+		for (itint in tints) {
+			$('#cboBackground')
+				.append(
+					$("<option></option>")
+					.attr("value",tints[itint].name)
+					.text(tints[itint].name)
+				);
+		
+		}
+		LOADING_THEMES = false;
+		themeSelect();
+		
+    }); //document ready	
+	
+	function themeSelect(){
+	
+		if (LOADING_THEMES) {return};
+		var xmlFile = $('#sampleChooser option:selected').val();
+		$.ajax({
+			  type: "GET",
+			  async: false,
+			  url: xmlFile,
+			  dataType: "xml",
+			  success: function(xmlData) {
+					var themeScript = $(xmlData).find('theme:first').find('script:first').text().trim();
+					$('#code').val(themeScript);
+			  }
+		}); //ajax
+		
+		settingsChange();
+		
+	}
+
+	function settingsChange() {
+		var code             = $('#code').val();
+		var statusBackground = $('#cboBackground option:selected').val();
+		var renderBattery    = new Function('height', 'percentage', 'charging', 'low', 'color', code);
 		var statusBackgroundColor = tints[statusBackground].backgroundColor;
+
 		var backgroundImage;
 		if (tints[statusBackground].name == 'Transparent')  {
-			backgroundImage = "url('" + document.getElementById('txtWallpaper').value + "')";
+			backgroundImage = "url('" + $('txtWallpaper').val() + "')";
 		} else {
 			backgroundImage = null;
 		}
 		
-		var isCustomTint = document.getElementById('isCustomTint').checked;
-		
+		var isCustomTint = $('#isCustomTint').is(':checked');
 		if (!isCustomTint) {
-			document.getElementById('txtColor').value = tints[statusBackground].tint;
+			$('#txtColor').val(tints[statusBackground].tint);
 		}
 		
-		var colors = document.getElementById('txtColor').value;
+		var colors = $('#txtColor').val();
 		var colors = colors.split(',');
 
-		var height = document.getElementById('cboHeight').options[document.getElementById('cboHeight').selectedIndex].value;
-		var isCharging = document.getElementById('isCharging').checked;
-		var isLow = document.getElementById('isLow').checked;
+		var height = $('#cboHeight option:selected').val();
+		var isCharging = $('#isCharging').is(':checked');
+		var isLow = $('#isLow').is(':checked');
 		
 		var percs=[5,10,20,50,75,100];
 		
 		var samples = document.getElementById('samples');
 		
 		for(var i=0;i<percs.length;i++) {
+			
+			// create the status bar
 			var div = document.getElementById('div'+percs[i]);
+			//var div = $('#div'+percs[i]);
+			
+			// create the battery image
 			var img = document.getElementById('img'+percs[i]);
 
-			if (!div) {
-
+			if (!div) { // if not existing
+				
+				// create
 				div = document.createElement("div");
-				div.setAttribute('id','div'+percs[i]);
-				div.setAttribute('class','statusBar');
+				$(div)
+					.attr('id','div'+percs[i])
+					.attr('class','statusBar')
 
 				if (i>0) {
-					samples.appendChild(document.createElement('br'));
+					$('#samples').append($('<br>'))
 				}
-	
-				samples.appendChild(div);
+				$('#samples').append(div)
 
 			}
+			// set status bar styles
 			div.style.height = height+'px';
+			
 			if (backgroundImage) {
 				div.style.backgroundImage  = backgroundImage;
-				
 			} else {
 				div.style.backgroundColor = statusBackgroundColor;
 				div.style.backgroundImage = null;
 			}
 			
-			if (!img) {
+			if (!img) { //if not exists
 				img=document.createElement("img");
 				img.setAttribute('id','img'+percs[i]);
 				img.setAttribute('align','right');
@@ -159,48 +158,11 @@
 				div.appendChild(document.createTextNode(' '));
 				
 			}
+			// set icon
 			img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
 		}
-	}
-			
-	function init() {
-	
-		var cbo = document.getElementById('sampleChooser');
-		
-		for (var i=0;i<themeSamples.length;i++) {
-		
-			var newOpt = document.createElement('option');
-			newOpt.text = themeSamples[i];
-			newOpt.value = themeSamples[i];
-			cbo.add(newOpt);
-			
-		}
-	
-		cbo = document.getElementById('cboBackground');
-		for (itint in tints) {
-			var newOpt = document.createElement('option');
-			newOpt.text = tints[itint].name;
-			newOpt.value = tints[itint].name;
-			cbo.add(newOpt);
-		}
+	} //settingsChanged
 
-		loadCode();
-
-	}
-	
-	function loadCode() {
-		var selectedCode = document.getElementById('sampleChooser').options[document.getElementById('sampleChooser').selectedIndex].value;
-	
-		var code = document.getElementById('sample'+selectedCode);
-		
-		if (code.value) {
-			document.getElementById('code').value = code.value;
-		} else {
-			document.getElementById('code').value = unescape(code.textContent);
-		}
-	
-		settingsChange();
-	}
 	</script>
 </head>
 <body>
@@ -209,7 +171,7 @@
 <table width="100%" border="0">
 	<tr>
 		<td>
-			<b>Sample Code:</b> <select id="sampleChooser" onchange="loadCode()"></select>
+			<b>Sample Code:</b> <select id="sampleChooser" onchange="themeSelect()"></select>
 		</td>
 		<td>
 			<b>Preview:</b>
@@ -304,6 +266,7 @@
 				<td valign="top">
 					<b>Changelog</b>
 					<div id="changelog">
+						<p>v0.6.1 : Load sample themes from XML for cleaner code. Allow passing of default theme with 'p' querystring.</p>
 					    <p>v0.6.0 : Added sample theme BuildingBlocksTemplate. Renamed some samples.</p>
 						<p>v0.5.2 : Added sample theme LN-Speedometer.</p>
 						<p>v0.5.1 : Bugfix: Background color now applies back after choosing from Transparent.</p>
@@ -329,544 +292,5 @@
 <!--br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a-->
 </div>
 <!-- End of SimpleHitCounter Code -->
-<!-- ========================================================================-->
-<textarea id="sampleLN-Simple" class="hidden">(height, percentage, charging, low, color)
-{
-/* just keep these */
-var canvas      = document.createElement("canvas"),
-    context     = canvas.getContext("2d"),
-    tintOpaque  = "rgba(" + color.join() + ",1)",
-    tintTransp  = "rgba(" + color.join() + ",0)";
-
-/* want to force a custom tint? */	
-//tintOpaque    = "rgba(255,127,64,1)";
-//tintTransp    = "rgba(255,127,64,0)";
-	
-/* prepare the dimensions */
-var barHeight   = Math.round(height * 3/4); 
-var barWidth    = barHeight*2;
-
-/* how thick is the border */
-var borderWidth = 2;
-
-/* inner dimensions */
-var innerHeight = barHeight-borderWidth*2;
-var innerWidth  = barWidth-borderWidth*2;
-
-/* set the dimensions */
-canvas.width    = barWidth;
-canvas.height   = barHeight;
-
-/* draw the borders */
-context.lineWidth   = borderWidth;
-context.strokeStyle = tintOpaque;
-context.strokeRect(0, 0, barWidth, barHeight);
-
-/* fill in the charge level */
-context.fillStyle   = tintOpaque;
-if (charging) {context.fillStyle = '#0F0';}
-
-/* if not charging and low or not charging and level is 20% and below */
-if (!charging && low || !charging && percentage <= 20) {
-	context.fillStyle = "#F00"; 
-}
-context.fillRect(
-	borderWidth, borderWidth, 
-	Math.round(innerWidth*(percentage/100)), 
-	innerHeight);
-
-/* text */
-context.globalCompositeOperation = "xor";
-context.fillStyle                = tintOpaque;
-context.font                     = (innerHeight*1.00) + "px Verdana";
-context.textAlign                = "center";
-context.textBaseline             = "middle";
-
-context.fillText(
-	percentage, 
-	Math.round(borderWidth+innerWidth/2), 
-	Math.round(borderWidth+innerHeight/2));
-	
-context.globalCompositeOperation  = "source-over";
-
-/* send the image */
-return canvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleLN-Dots" class="hidden">(height, percentage, charging, low, color) 
-{
-/* prepare */
-var canvas  = document.createElement("canvas"),
-	context = canvas.getContext("2d"),
-	tint 	= "rgba(" + color.join() + ",1)";
-
-/* prepare the dimensions */
-var barHeight = Math.round(height * 1/4);
-
-var 
-	blockCount = 5,
-	percentPerBlock = 100/blockCount,
-	blockWidth = barHeight,
-	spacing = 4;
-
-var barWidth = (blockWidth + spacing)*blockCount;
-
-/* how thick is the border */
-var borderWidth = 1;
-
-/* set the dimensions */
-canvas.width = barWidth;
-canvas.height = barHeight;
-
-/* drawing settings  */
-context.lineWidth = borderWidth;
-context.strokeStyle = tint;
-context.fillStyle = tint;
-//  context.strokeRect(0, 0, barWidth, barHeight);
-
-var topLeft, cx,cy;
-for (var i=1;i<=blockCount;i++) {
-
-	topLeft = (i-1)*spacing+(i-1) * blockWidth;
-	cx = topLeft + blockWidth/2;
-	cy = barHeight/2;
-	radius = blockWidth/2-1;
-	//    context.strokeRect( (i-1)*spacing+(i-1)*blockWidth, 0, blockWidth, barHeight);
-
-	context.beginPath();
-	context.arc(cx,cy,radius,0,2*Math.PI);
-
-	if (percentage<=20) { 
-		context.fillStyle = '#F00';
-		context.strokeStyle = '#F00';
-	}
-	if (charging) { 
-		context.fillStyle = '#0F0';
-		context.strokeStyle = '#0F0';
-	}
-
-	if (percentage > ((i-1)*percentPerBlock)) {
-		context.fill();
-	}
-	context.stroke();
-
-}
-
-/* send the image back */
-return canvas.toDataURL("image/png");
-
-//end
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleDroid" class="hidden">(height, percentage, charging, low, color)
-{
-    var barHeightMinusTwo = 2 * Math.round(height * 2 / 5),
-        barHeight = barHeightMinusTwo + 2,
-        widthMinusTwo = 2 * Math.round(barHeightMinusTwo * 5 / 16),
-        width = widthMinusTwo + 2,
-        cutWidth = Math.floor(1 + width * 3 / 14),
-        cutHeight = Math.floor(1 + barHeight / 11),
-        canvas = document.createElement("canvas"),
-        context = canvas.getContext("2d"),
-        imageData;
-    canvas.width = width;
-    canvas.height = barHeight;
-    context.fillStyle = "rgba(0,0,0,0.3)";
-    context.fillRect(1, 1, widthMinusTwo, barHeightMinusTwo);
-    context.fillStyle = "#000";
-    context.fillRect(1, barHeightMinusTwo * ((100 - percentage) / 100), widthMinusTwo, barHeightMinusTwo);
-    context.clearRect(0, 0, cutWidth, cutHeight);
-    context.clearRect(width - cutWidth, 0, cutWidth, cutHeight);
-    imageData = context.getImageData(0, 0, width, barHeight);
-    for(var i = 0; i < imageData.data.length; i += 4) {
-        imageData.data[i + 3] = 255 - imageData.data[i + 3];
-    }
-    context.putImageData(imageData, 0, 0);
-    context.font = barHeightMinusTwo * ((percentage < 6) ? 0.625 : 0.375) + "pt HelveticaNeue-CondensedBold";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText(charging ? '\u26a1' : (percentage < 6) ? '!' : percentage, width / 2, barHeight / 2, widthMinusTwo * 0.9);
-    imageData = context.getImageData(0, 0, width, barHeight);
-    for(var i = 0; i < imageData.data.length; i += 4) {
-        imageData.data[i + 3] = 255 - imageData.data[i + 3];
-        var currentTrans = imageData.data[i + 3] / 255;
-        imageData.data[i] = color[0] * currentTrans;
-        imageData.data[i + 1] = color[1] * currentTrans;
-        imageData.data[i + 2] = color[2] * currentTrans;
-    }
-    context.putImageData(imageData, 0, 0);
-    return canvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleLBI" class="hidden">(height, percentage, charging, low, color)
-{
-    var radius = Math.round(height * 4 / 5) / 2,
-        lineWidth = Math.floor(height / 20),
-        size = radius * 2 + lineWidth,
-        canvas = document.createElement("canvas"),
-        context = canvas.getContext("2d"),
-        colorString = color.join(),
-        halfSize = size/2,
-        fontHeight = radius,
-        pi = Math.PI;
-    if(percentage == 100) fontHeight = Math.round(height * 3 / 5) / 2;
-    canvas.width = size;
-    canvas.height = size;
-    context.lineWidth = lineWidth;
-    context.strokeStyle = "rgba(" + colorString + ",0.3)";
-    if(low) context.strokeStyle = "rgba(255,59,48,0.3)";
-    if(charging) context.strokeStyle = "rgba(76,217,100,0.3)";
-    context.arc(halfSize, halfSize, radius, 0, pi * 2);
-    context.stroke();
-    context.strokeStyle = "rgb(" + colorString + ")";
-    if(low) context.strokeStyle = "#FF3B30";
-    if(charging) context.strokeStyle = "#4CD964";
-    context.fillStyle = context.strokeStyle;
-    context.beginPath();
-    context.arc(halfSize, halfSize, radius, pi * (((100 - percentage) / 50) - 0.5), pi * 1.5);
-    context.stroke();
-    context.font = fontHeight + "pt Helvetica Neue";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText(percentage, halfSize, halfSize);
-    return canvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleHabesha" class="hidden">(height, percentage, charging, low, color)
-{
-    var emptyBarCanvas = document.createElement("canvas"),
-        emptyBarContext = emptyBarCanvas.getContext("2d"),
-        emptyBarData,
-        fullBarCanvas = document.createElement("canvas"),
-        fullBarContext = fullBarCanvas.getContext("2d"),
-        fullBarData,
-        finalCanvas = document.createElement("canvas"),
-        finalContext = finalCanvas.getContext("2d"),
-        barWidth = 2 + height / 4,
-        barHeight = 2 + height / 2,
-        radius = height / 8,
-        horizontalPadding = Math.ceil(height / 16),
-        totalWidth = barWidth * 5 + horizontalPadding * 4,
-        colorString = "rgb(" + color.join() + ")",
-        barData;
-    finalCanvas.width = totalWidth;
-    finalCanvas.height = barHeight;
-    emptyBarCanvas.width = barWidth;
-    emptyBarCanvas.height = barHeight;
-    fullBarCanvas.width = barWidth;
-    fullBarCanvas.height = barHeight;
-    function drawPath(ctx) {
-        ctx.beginPath();
-        ctx.arc(barWidth / 2, barHeight - radius - 1, radius, 0, Math.PI);
-        ctx.lineTo(1, radius + 1);
-        ctx.arc(barWidth / 2, radius + 1, radius, Math.PI, 0);
-        ctx.lineTo(barWidth - 1, barHeight - radius - 1);
-        ctx.clip();
-        ctx.lineWidth = Math.floor(height / 20);
-        ctx.strokeStyle = colorString;
-    }
-    drawPath(emptyBarContext);
-    emptyBarContext.stroke();
-    emptyBarData = emptyBarContext.getImageData(0, 0, barWidth, barHeight);
-    fullBarContext.fillStyle = colorString;
-    if(low) fullBarContext.fillStyle = "#FF3B30";
-    if(charging) fullBarContext.fillStyle = "#4CD964";
-    drawPath(fullBarContext);
-    fullBarContext.fill();
-    fullBarContext.stroke();
-    fullBarData = fullBarContext.getImageData(0, 0, barWidth, barHeight);
-    for(var i = 0; i < 5; i++) {
-        if(percentage <= 20 * i)
-            barData = emptyBarData;
-        else if(percentage >= 20 * (i+1) )
-            barData = fullBarData;
-        else {
-            finalContext.putImageData(fullBarData, i * (barWidth + horizontalPadding), 0);
-            barData = emptyBarContext.getImageData(0, 0, barWidth, (barHeight - 6) * (1 - (percentage - (20 * i)) / 20) + 3);
-        }
-        finalContext.putImageData(barData, i * (barWidth + horizontalPadding), 0);
-    }
-    return finalCanvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleHearts" class="hidden">(height, percentage, charging, low, color)
-{
-    var colorString = "rgb(" + color.join() + ")",
-        scale = Math.floor(height / 20),
-        halfHearts = Math.ceil(percentage / 5),
-        fullHeartData,
-        halfHeartData,
-        emptyHeartData,
-        finalCanvas = document.createElement("canvas"),
-        finalContext = finalCanvas.getContext("2d");
-    function initHeart(canvas, context) {
-        canvas.width = scale * 8;
-        canvas.height = scale * 7;
-        context.fillStyle = colorString;
-        context.fillRect(0, 0, scale * 8, scale * 7);
-        context.clearRect(0, 0, scale, scale);
-        context.clearRect(scale * 3, 0, scale, scale);
-        context.clearRect(scale * 7, 0, scale, scale);
-        context.clearRect(0, scale * 4, scale, scale);
-        context.clearRect(scale * 7, scale * 4, scale, scale);
-        context.clearRect(0, scale * 5, scale * 2, scale * 2);
-        context.clearRect(scale * 6, scale * 5, scale * 2, scale * 2);
-        context.clearRect(scale * 2, scale * 6, scale, scale);
-        context.clearRect(scale * 5, scale * 6, scale, scale);
-    }
-    if(halfHearts > 1) {
-        var fullHeartCanvas = document.createElement("canvas"),
-            fullHeartContext = fullHeartCanvas.getContext("2d");
-        initHeart(fullHeartCanvas, fullHeartContext);
-        fullHeartData = fullHeartContext.getImageData(0, 0, scale * 8, scale * 7);
-    }
-    if(halfHearts % 2 == 1) {
-        var halfHeartCanvas = document.createElement("canvas"),
-            halfHeartContext = halfHeartCanvas.getContext("2d")
-        initHeart(halfHeartCanvas, halfHeartContext);
-        halfHeartContext.clearRect(scale * 4, scale, scale * 3, scale * 3);
-        halfHeartContext.clearRect(scale * 4, scale * 4, scale * 2, scale);
-        halfHeartContext.clearRect(scale * 4, scale * 5, scale, scale);
-        halfHeartData = halfHeartContext.getImageData(0, 0, scale * 8, scale * 7);
-    }
-    if(halfHearts < 19) {
-        var emptyHeartCanvas = document.createElement("canvas"),
-            emptyHeartContext = emptyHeartCanvas.getContext("2d");
-        initHeart(emptyHeartCanvas, emptyHeartContext);
-        emptyHeartContext.clearRect(scale, scale, scale * 2, scale);
-        emptyHeartContext.clearRect(scale * 4, scale, scale * 3, scale);
-        emptyHeartContext.clearRect(scale, scale * 2, scale * 6, scale * 2);
-        emptyHeartContext.clearRect(scale * 2, scale * 4, scale * 4, scale);
-        emptyHeartContext.clearRect(scale * 3, scale * 5, scale * 2, scale);
-        emptyHeartData = emptyHeartContext.getImageData(0, 0, scale * 8, scale * 7);
-    }
-    finalCanvas.width = scale * 44;
-    finalCanvas.height = scale * 16;
-    for(var i = 0; i < 10; i++) {
-        finalContext.putImageData((halfHearts >= (i + 1) * 2) ? fullHeartData : (halfHearts - (i * 2) == 1) ? halfHeartData : emptyHeartData, (i % 5) * scale * 9, i < 5 ? scale * 9 : 0);
-    }
-    return finalCanvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleLN-Speedometer" class="hidden">(height, percentage, charging, low, color)
-{
-/* LN-Speedometer by @supermamon */
-/* just keep these */
-var canvas      = document.createElement("canvas"),
-    context     = canvas.getContext("2d"),
-    tintOpaque  = "rgba(" + color.join() + ",1)",
-    tintTransP  = "rgba(" + color.join() + ",0)",
-    tintTransL  = "rgba(" + color.join() + ",0)";
-
-
-/* prepare the dimensions */
-var barHeight   = Math.round(height * 7/8); 
-var barWidth    = barHeight;
-
-/* set the dimensions */
-canvas.width    = barWidth;
-canvas.height   = barHeight;
-
-/* how thick is the border */
-var borderWidth = 1;
-
-/* prep */
-var pi=Math.PI, cx = barWidth-2, cy = barHeight, r = barHeight*0.8;
-
-/* background */
-context.lineWidth   = barHeight*0.12;
-context.beginPath();
-context.strokeStyle = tintOpaque;
-context.arc(cx,cy,r,pi,1.5*pi);
-context.stroke();
-/* red arc */
-context.lineWidth   = barHeight*0.1;
-context.beginPath();
-context.strokeStyle = "#F00";
-context.arc(cx,cy,r,(1+(0.5*0.00))*pi,(1+(0.5*0.20))*pi);
-context.stroke();
-/* yellow arc */
-context.beginPath();
-context.strokeStyle = "#FF0";
-context.arc(cx,cy,r,(1+(0.5*0.21))*pi,(1+(0.5*0.50))*pi);
-context.stroke();
-/* green arc */
-context.beginPath();
-context.strokeStyle = "#0F0";
-context.arc(cx,cy,r,(1+(0.5*0.51))*pi,(1+(0.5*1.00))*pi);
-context.stroke();
-/* pointer */
-context.beginPath();
-context.lineWidth   = barHeight*0.05;
-context.strokeStyle = tintOpaque;
-context.moveTo(cx,cy);
-var 
-    theta = pi*(1+0.5*percentage/100),
-    reduce = context.lineWidth+2,
-    ex = cx+(r-reduce)*Math.cos(theta),
-    ey = cy+(r-reduce)*Math.sin(theta);
-context.lineTo(ex,ey);
-context.stroke();
-
-/* text */
-context.globalCompositeOperation = "xor";
-context.fillStyle                = (charging ? '#0F0' : tintOpaque);
-context.font                     = (barHeight*0.30) + "px Verdana";
-context.textAlign                = "left";
-context.textBaseline             = "top";
-context.fillText(percentage,0,0);
-
-if (charging) {
-context.fillStyle                = '#0F0';
-context.font                     = (barHeight*0.4) + "px Verdana";
-context.textAlign                = "left";
-context.textBaseline             = "top";
-context.fillText('\u26a1',1,(barHeight*0.25));
-}
-
-if (low) {
-context.fillStyle                = '#F00';
-context.font                     = (barHeight*0.4) + "px Verdana";
-context.textAlign                = "left";
-context.textBaseline             = "top";
-context.fillText('!',1,(barHeight*0.35));
-
-}
-
-
-/* send the image */
-return canvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<textarea id="sampleLN-BuildingBlocksTemplate" class="hidden">(height, percentage, charging, low, color) 
-{
-/* ************************************************************************** *
- *                  Lithium Building Blocks Theme Template                    *
- *                            version 1.0.0                                   *
- *                            by @supermamon                                  *
- *                                                                            *          
- * This is a customizable template that you can use to create your own theme. *
- * Additional instructions are in the comments. If you have any questions,    *
- * contact be via Twitter (@supermamon) or PM me on Reddit /u/supermamon.     *
- *                                                                            *          
- * Enjoy!                                                                     *
- *                                                                            *          
- * ************************************************************************** */
- 
-var DEBUG_SHOW_GUIDELINES = false;         // show enclosing borders
-
-var 
-    barHeight  = Math.round(height * 4/8), // How high do you want your icons to be?
-    blockCount = 5,                        // how many do you want?
-    blockWidth = barHeight*1.0,            // how skinny/fat do you want them?
-    spacing    = 3;                        // how far away are they from each other?
-
-/* drawBlock function
-
-   This is the function that's being called to draw each block. 
-   3 samples for starters
-   Parameters are self-explanatory (I hope)
-   
-*/
-function drawBlock(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
-   drawTriangles(topX, topY, blockWidth, blockHeight, blockNumber, blockCount)
-   //drawDots(topX, topY, blockWidth, blockHeight, blockNumber, blockCount)
-   //drawSquares(topX, topY, blockWidth, blockHeight, blockNumber, blockCount)
-   
-}
-
-function drawTriangles(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
-    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
-        if (percentage<=20) { context.fillStyle = '#F00'}
-        if (charging) { context.fillStyle = '#0F0'}
-        context.strokeStyle = context.fillStyle;
-    }  
-
-    var path = new Path2D();
-    path.moveTo(topX               , topY+blockHeight); // bottom left
-    path.lineTo(topX+blockWidth    , topY+blockHeight); //bottom right
-    path.lineTo(topX+blockWidth/2  , topY); // top center
-    path.lineTo(topX               , topY+blockHeight); // bottom left
-    context.stroke(path);
-
-    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
-        context.fill(path);
-    }  
-}
-function drawDots(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
-    context.beginPath();
-    cx = topX + blockWidth/2;
-    cy = topY + blockHeight/2;
-    radius = blockWidth/2-1;
-    context.arc(cx,cy,radius,0,2*Math.PI);
-    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
-        if (percentage<=20) { context.fillStyle = '#F00'}
-        if (charging) { context.fillStyle = '#0F0'}
-        context.fill();
-    }
-    context.stroke();
-}
-
-function drawSquares(topX, topY, blockWidth, blockHeight, blockNumber, blockCount) { 
-    context.beginPath();
-    context.strokeRect( (i-1)*spacing+(i-1)*blockWidth, 0, blockWidth, barHeight);
-    if (percentage >= (blockCount*blockNumber/blockCount*10)) {
-        if (percentage<=20) { context.fillStyle = '#F00'}
-        if (charging) { context.fillStyle = '#0F0'}
-        context.fillRect( topX, topY, blockWidth, blockHeight);
-    }
-    context.stroke();
-}
-
-/* ************************************************************************** */
-/*      DON'T EDIT BEYOND THIS LINES UNLESS YOU KNOW WHAT YOU ARE DOING       */
-/* ************************************************************************** */
-
-// setup the canvas
-var canvas  = document.createElement("canvas"),
-    context = canvas.getContext("2d"),
-    tintOpaque    = "rgba(" + color.join() + ",1)",
-    tintTransp    = "rgba(" + color.join() + ",0)",
-    tintTransl    = "rgba(" + color.join() + ",0.5)",
-    barWidth      = (blockWidth + spacing)*blockCount;
-
-canvas.height       = barHeight;
-canvas.width        = barWidth;
-context.lineWidth   = 1;
- 
-// draw the guidelines
-if (DEBUG_SHOW_GUIDELINES) {
-	context.strokeStyle = tintOpaque;
-    context.strokeRect(0, 0, barWidth, barHeight);
-}
-    
-// loop through each block
-for (var i=1;i<=blockCount;i++) {
-
-    // defaults. can be overriden by the drawBlock function
-    context.strokeStyle = tintOpaque;
-    context.fillStyle   = tintOpaque;
-
-    // draw the guidelines 
-    if (DEBUG_SHOW_GUIDELINES) {
-        context.strokeRect( (i-1)*spacing+(i-1)*blockWidth, 0, blockWidth, barHeight);
-    }
-	
-    // draw block
-    drawBlock((i-1)*spacing+(i-1) * blockWidth, 0, blockWidth, barHeight, i, blockCount)
-    
-} // each block
-
-
-// send the image back
-return canvas.toDataURL("image/png");
-}</textarea>
-<!-- ========================================================================-->
-<script language="javascript">
-	init();
-	settingsChange();
-</script>
-
 </body>
-
 </html>
