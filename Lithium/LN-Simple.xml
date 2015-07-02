@@ -15,7 +15,7 @@ var canvas      = document.createElement("canvas"),
 //tintTransp    = "rgba(255,127,64,0)";
 	
 /* prepare the dimensions */
-var barHeight   = Math.round(height * 3/4); 
+var barHeight   = Math.round(height * 0.65); 
 var barWidth    = barHeight*2;
 
 /* how thick is the border */
@@ -50,14 +50,14 @@ context.fillRect(
 /* text */
 context.globalCompositeOperation = "xor";
 context.fillStyle                = tintOpaque;
-context.font                     = (innerHeight*1.00) + "px Verdana";
+context.font                     = (innerHeight*0.95) + "px Verdana";
 context.textAlign                = "center";
 context.textBaseline             = "middle";
 
 context.fillText(
 	percentage, 
 	Math.round(borderWidth+innerWidth/2), 
-	Math.round(borderWidth+innerHeight/2));
+	Math.round(borderWidth/2+borderWidth+innerHeight/2));
 	
 context.globalCompositeOperation  = "source-over";
 

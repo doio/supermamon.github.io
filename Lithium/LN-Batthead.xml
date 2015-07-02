@@ -44,7 +44,7 @@ var battTop = borderWidth*2+2;
     /* draw the charge */
     context.fillStyle = tint;
     if (charging) {
-        context.fillStyle = tint;
+        context.fillStyle = '#0f0';
     }
     if (!charging && low || !charging && percentage <= 20) {
         context.fillStyle = "#F00"; /* red */

@@ -18,10 +18,17 @@
 	themes[themes.length] = 'LN-BuildingBlocksTemplate.xml';
 
 	themes[themes.length] = 'Empty.xml';
+	if ($.QueryString['x']) {
+		var themes = [];
+		themes[themes.length] = $.QueryString['x'];
+	}
+	
+	
 
 	var tints = [];
 	tints['White']		= {name:'White'      ,backgroundColor:'#FFFFFF',tint:'0,0,0'};
 	tints['Black']		= {name:'Black'      ,backgroundColor:'#000000',tint:'255,255,255'};
+	tints['Gray']		= {name:'Gray'       ,backgroundColor:'#888888',tint:'0,0,0'};
 	tints['Facebook']	= {name:'Facebook'   ,backgroundColor:'#3b5998',tint:'255,255,255'};
 	tints['Twitter']	= {name:'Twitter'    ,backgroundColor:'#00aced',tint:'255,255,255'};
 	tints['Evernote']	= {name:'Evernote'   ,backgroundColor:'#6FB536',tint:'0,0,0'};
@@ -95,7 +102,7 @@
 
 		var backgroundImage;
 		if (tints[statusBackground].name == 'Transparent')  {
-			backgroundImage = "url('" + $('txtWallpaper').val() + "')";
+			backgroundImage = "url('" + $('#txtWallpaper').val() + "')";
 		} else {
 			backgroundImage = null;
 		}
@@ -136,8 +143,9 @@
 				if (i>0) {
 					$('#samples').append($('<br>'))
 				}
+				
 				$('#samples').append(div)
-
+				
 			}
 			// set status bar styles
 			div.style.height = height+'px';
@@ -250,7 +258,7 @@
 			<hr>
 			<table border="0" width="90%" align="center">
 			<tr>
-				<td valign="top">
+				<td valign="top" width="50%">
 					<p><b>Need help?</b>
 					<div id="help">
 						<ul>
@@ -263,22 +271,13 @@
 						</p>
 					</div>
 				</td>
-				<td valign="top">
-					<b>Changelog</b>
-					<div id="changelog">
-						<p>v0.6.1 : Load sample themes from XML for cleaner code. Allow passing of default theme with 'p' querystring.</p>
-					    <p>v0.6.0 : Added sample theme BuildingBlocksTemplate. Renamed some samples.</p>
-						<p>v0.5.2 : Added sample theme LN-Speedometer.</p>
-						<p>v0.5.1 : Bugfix: Background color now applies back after choosing from Transparent.</p>
-						<p>v0.5.0 : Use Wallpaper for transparent status bar.</p>
-						<p>v0.4.1 : Minor changes to SimpleBar sample.</p>
-						<p>v0.4.0 : Added Sample Code picker.</p>
-						<p>v0.3.2 : Bugfix: Custom tint can now be used by ticking Use Custom.</p>
-						<p>v0.3.1 : Modifed sample script. Added Viber background.</p>
-						<p>v0.3.0 : Added status bar background+dynamic tint</p>
-						<p>v0.2.1 : Add sample code for putting text</p>
-						<p>v0.2.0 : Simpler sample with comments</p>
-						<p>v0.1.0 : First Release</p>
+				<td valign="top" width="50%">
+					<b>Links</b>
+					<div id="help">
+						<ul>
+							<li><a href="changelog.txt">Changelog</a></li>
+							<li><a href="faq.txt">FAQ</a></li>
+						</ul>
 					</div>
 				</td>
 			</tr>
