@@ -97,7 +97,6 @@
 	function settingsChange() {
 		var code             = $('#code').val();
 		var statusBackground = $('#cboBackground option:selected').val();
-		var renderBattery    = new Function('height', 'percentage', 'charging', 'low', 'color', code);
 		var statusBackgroundColor = tints[statusBackground].backgroundColor;
 
 		var backgroundImage;
@@ -158,6 +157,22 @@
 			}
 			
 			if (!img) { //if not exists
+			
+				$(div).append(
+					$("<span id='errorIcon" + percs[i] + "'>E</span>")
+						.css({
+							"color":"#FFF",
+							"background-color":"#F00",
+							"font-family":"'Helvetica', 'Arial','Tahoma'",
+							"font-size":"7pt",
+							"width":"8pt",
+							"height":"8pt",
+							"display":"block",
+							"text-align":"center",
+							"float":"left"
+						})
+				)
+			
 				img=document.createElement("img");
 				img.setAttribute('id','img'+percs[i]);
 				img.setAttribute('align','right');
@@ -167,7 +182,13 @@
 				
 			}
 			// set icon
-			img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
+			try {
+				var renderBattery    = new Function('height', 'percentage', 'charging', 'low', 'color', code);
+				img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
+				$('#errorIcon' + percs[i]).hide();
+			} catch(err) {
+				$('#errorIcon' + percs[i]).show();
+			}
 		}
 	} //settingsChanged
 
