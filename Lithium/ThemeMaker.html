@@ -6,7 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="css/lithium.css">
 	<script type="text/javascript">
 	
+	var themesFolder = "themes/"
 	var themes = [];
+	/*
 	themes[themes.length] = 'Habesha.xml';	
 	themes[themes.length] = 'LBI.xml';	
 	themes[themes.length] = 'Droid.xml';
@@ -18,9 +20,22 @@
 	themes[themes.length] = 'LN-BuildingBlocksTemplate.xml';
 
 	themes[themes.length] = 'Empty.xml';
+	*/
+	themes[themes.length] = 'Habesha.js';	
+	themes[themes.length] = 'LBI.js';	
+	themes[themes.length] = 'Droid.js';
+	themes[themes.length] = 'Hearts.js';	
+	themes[themes.length] = 'LN-Simple.js';
+	themes[themes.length] = 'LN-Dots.js';
+	themes[themes.length] = 'LN-Batthead.js';
+	themes[themes.length] = 'LN-Speedometer.js';
+	themes[themes.length] = 'LN-BlocksTemplate.js';
+	themes[themes.length] = 'LN-Customizeable.xml';
+	themes[themes.length] = 'Empty.js';
+
 	if ($.QueryString['x']) {
-		var themes = [];
-		themes[themes.length] = $.QueryString['x'];
+		//var themes = [];
+		//themes[themes.length] = $.QueryString['x'];
 	}
 	
 	
@@ -43,23 +58,38 @@
         LOADING_THEMES = true;
 		for(var i=0;i<themes.length;i++) {
 			var xmlFile = themes[i];
-			$.ajax({
-				  type: "GET",
-				  async: false,
-				  url: xmlFile,
-				  dataType: "xml",
-				  success: function(xmlData) {
-						var themeName = xmlData.getElementsByTagName('theme')[0].getElementsByTagName('name')[0].innerHTML.trim()
-						$('#sampleChooser')
-							.append(
-								$("<option></option>")
-								.attr("selected",($.QueryString['p']==themeName?true:false ))
-								.attr("value",xmlFile)
-								.text(themeName)
-							);
-				  } //success
-			}); //ajax
+			
+			if ( (/js$/i).test(xmlFile) ) {
+			
+				$('#sampleChooser')
+					.append(
+						$("<option></option>")
+						.attr("selected",($.QueryString['p']==xmlFile?true:false ))
+						.attr("value",(themesFolder+xmlFile))
+						.text(xmlFile)
+					);
+			} else {
+			
+				$.ajax({
+					  type: "GET",
+					  async: false,
+					  url: (themesFolder+xmlFile),
+					  dataType: "xml",
+					  success: function(xmlData) {
+							var themeName = xmlData.getElementsByTagName('theme')[0].getElementsByTagName('name')[0].innerHTML.trim()
+							$('#sampleChooser')
+								.append(
+									$("<option></option>")
+									.attr("selected",($.QueryString['p']==themeName?true:false ))
+									.attr("value",(themesFolder+xmlFile))
+									.text(themeName)
+								);
+					  } //success
+				}); //ajax
+			}
 		} //for
+		
+		
 		
 		for (itint in tints) {
 			$('#cboBackground')
@@ -79,16 +109,33 @@
 	
 		if (LOADING_THEMES) {return};
 		var xmlFile = $('#sampleChooser option:selected').val();
-		$.ajax({
-			  type: "GET",
-			  async: false,
-			  url: xmlFile,
-			  dataType: "xml",
-			  success: function(xmlData) {
-					var themeScript = $(xmlData).find('theme:first').find('script:first').text().trim();
-					$('#code').val(themeScript);
-			  }
-		}); //ajax
+		
+		if ((/js$/i).test(xmlFile)) {
+		
+			$.ajax({
+				  type: "GET",
+				  async: false,
+				  url: xmlFile,
+				  dataType: "text",
+				  success: function(textData) {
+						$('#code').val(textData);
+				  }
+			}); //ajax
+		
+		} else {
+			$.ajax({
+				  type: "GET",
+				  async: false,
+				  url: xmlFile,
+				  dataType: "xml",
+				  success: function(xmlData) {
+						var themeScript = $(xmlData).find('theme:first').find('script:first').text().trim();
+						$('#code').val(themeScript);
+				  }
+			}); //ajax
+		
+		}
+		
 		
 		settingsChange();
 		
@@ -296,7 +343,7 @@
 					<b>Links</b>
 					<div id="help">
 						<ul>
-							<li><a href="changelog.txt">Changelog</a></li>
+							<li><a href="changelog.txt">Changelog v0.6.4</a></li>
 							<li><a href="faq.txt">FAQ</a></li>
 						</ul>
 					</div>

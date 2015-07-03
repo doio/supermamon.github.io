@@ -1,7 +1,3 @@
-<theme>
-<name>Hearts</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color)
 {
     var colorString = "rgb(" + color.join() + ")",
@@ -60,8 +56,3 @@
     }
     return finalCanvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>

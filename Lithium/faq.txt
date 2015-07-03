@@ -16,9 +16,11 @@ You can add the repo https://supermamon.github.io/repo in cydia to install it.
 
 Yes. You can clone the code from github. 
 
-4. I saw the change log and I'm interested on the changes for v 0.6.1 & 0.6.2.
+4. I saw the change log and I'm interested on the changes for v0.6.1 & 0.6.2.
    What are they for?
 
+   **** v0.6.2 update temporarily disabled. ****
+   
 v0.6.1. I've remove the code for the samples from the main ThemeMaker.html. They 
         are now save as XML files. With that, I can load the scripts just by 
 		having the XML filenames. XML format is as below:
@@ -47,5 +49,3 @@ v0.6.1. I've remove the code for the samples from the main ThemeMaker.html. They
 		
 v0.6.2  Now you can pass the URL for your XML file with the 'x' parameter.
 		https://.../Lithium/ThemeMaker.html?x=http://.../LBI.xml
-
-		

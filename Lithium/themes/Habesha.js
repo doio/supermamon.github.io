@@ -1,7 +1,3 @@
-<theme>
-<name>Habesha</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color)
 {
     var emptyBarCanvas = document.createElement("canvas"),
@@ -58,8 +54,3 @@
     }
     return finalCanvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>

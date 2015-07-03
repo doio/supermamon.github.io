@@ -1,10 +1,5 @@
-<theme>
-<name>LN-Speedometer</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color)
 {
-/* LN-Speedometer by @supermamon */
 /* just keep these */
 var canvas      = document.createElement("canvas"),
     context     = canvas.getContext("2d"),
@@ -91,8 +86,3 @@ context.fillText('!',1,(barHeight*0.35));
 /* send the image */
 return canvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>

@@ -1,7 +1,3 @@
-<theme>
-<name>LN-Customizeable</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color)
 {
 var 
@@ -23,23 +19,23 @@ var
 canvasType        = "rectangle",
 	
 // canvasHeightRatio : ratio of the icon height vs the StatusBar height
-canvasHeightRatio = 3/4,
+canvasHeightRatio = 4/4,
 
 // canvasWidthRatio : ratio of the icon width vs icon height
-canvasWidthRatio  = 2, // vs Height
+canvasWidthRatio  = 3, // vs Height
 
 // slotCount : The number of blocks the icon is made of
 // Forced to 1 if canvasType = "square"
 slotCount   = 5,
 
 // slotSpacing : Then space between blocks, in pixels
-slotSpacing = 3,
+slotSpacing = 2,
 
 // slotShape   : Default : rectangle
 //Options
 //   rectangle
 //   circle
-slotShape   = "rectangle",
+slotShape   = "radial",
 
 // tintNormal : Color for the normal icon
 tintNormal  = tintOpaque,
@@ -54,7 +50,7 @@ tintLowBat  = '#F00',
 useCustomLowBatLevel = true,
 
 // useCustomLowBatLevel : customLowBatLevel
-customLowBatLevel = 15
+customLowBatLevel = 20
 
 // debugging
 fixingIt                 = false
@@ -76,6 +72,28 @@ fnShape['circle'] = function(s,f,cx,cy,r,a) {
 fnShape['rectangle'] = function(s,f,x,y,w,h) {
     if (s) {context.strokeRect(x, y, w, h);}
     if (f) {context.fillRect(x, y, w, h);}
+}
+fnShape['radial'] = function(s,f,cx,cy,r,a) {
+    context.beginPath();
+
+    context.arc(cx,cy,r*0.8,0,a);
+    if (s && !f) {context.stroke();}
+    //if (f) {context.fill();}
+    var grd=context.createRadialGradient(cx,cy,radius*0.1,cx,cy,radius*1.5);
+
+    if (f) {
+    if (percentage<=20) { 
+        grd.addColorStop(0,tintLowBat);
+    } else if (charging) {
+        grd.addColorStop(0,tintCharged) ;
+    } else {
+        grd.addColorStop(0,tintNormal);
+    }
+    }
+    grd.addColorStop(1,tintTransp); 
+    context.fillStyle = grd;
+    context.fill();
+
 }
  
 // defaults
@@ -135,6 +153,13 @@ for (var i=1;i<=slotCount;i++) {
         var an = 2*Math.PI;
         fnShape['circle'](true,fillIt,cx,cy,ra,an)
         break;
+    case "radial" : 
+        var cx = slotTopLeft + slotWidth/2;
+        var cy = canvasHeight/2;
+        var ra = slotWidth/2;
+        var an = 2*Math.PI;
+        fnShape['radial'](true,fillIt,cx,cy,ra,an)
+        break;
     default:
         fnShape['rectangle'](true,fillIt,slotTopLeft,canvasHeight/2-slotWidth/2,slotWidth, slotWidth);
         break;
@@ -149,8 +174,3 @@ if (fixingIt) {
 /* send the image */
 return canvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>

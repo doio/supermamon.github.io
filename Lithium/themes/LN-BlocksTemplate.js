@@ -1,7 +1,3 @@
-<theme>
-<name>LN-BuildingBlocksTemplate</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color) 
 {
 /* ************************************************************************** *
@@ -125,8 +121,3 @@ for (var i=1;i<=blockCount;i++) {
 // send the image back
 return canvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>

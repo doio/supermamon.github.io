@@ -1,7 +1,3 @@
-<theme>
-<name>LBI</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color)
 {
     var radius = Math.round(height * 4 / 5) / 2,
@@ -35,6 +31,3 @@
     context.fillText(percentage, halfSize, halfSize);
     return canvas.toDataURL("image/png");
 }
-]]>
-</script>
-</theme>

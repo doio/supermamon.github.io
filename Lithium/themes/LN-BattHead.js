@@ -1,11 +1,5 @@
-<theme>
-<name>LN-Batthead</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color) 
 {
-
-/* BATTHEAD */
 
     /* just keep these */
     var canvas  = document.createElement("canvas"),
@@ -71,8 +65,3 @@ var battTop = borderWidth*2+2;
     /* send the image back */
     return canvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>

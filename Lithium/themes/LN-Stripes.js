@@ -1,7 +1,3 @@
-<theme>
-<name>LN-Simple</name>
-<script>
-<![CDATA[
 (height, percentage, charging, low, color)
 {
 /* just keep these */
@@ -15,8 +11,8 @@ var canvas      = document.createElement("canvas"),
 //tintTransp    = "rgba(255,127,64,0)";
 	
 /* prepare the dimensions */
-var barHeight   = Math.round(height * 0.65); 
-var barWidth    = barHeight*2;
+var barHeight   = Math.round(height * 2/4); 
+var barWidth    = barHeight*3;
 
 /* how thick is the border */
 var borderWidth = 2;
@@ -32,40 +28,51 @@ canvas.height   = barHeight;
 /* draw the borders */
 context.lineWidth   = borderWidth;
 context.strokeStyle = tintOpaque;
-context.strokeRect(0, 0, barWidth, barHeight);
+
+/* background */
+
+lW = barHeight*0.15;
+
+context.strokeStyle   = "#CCC";
+context.globalCompositeOperation  = "darker";
+
+context.lineWidth = lW;
+for (var i=lW;i<lW*30;i=i+lW*3) {
+    context.moveTo(i,borderWidth);
+    context.lineTo(i-lW*6,innerHeight);
+    context.stroke();
+}
 
 /* fill in the charge level */
 context.fillStyle   = tintOpaque;
 if (charging) {context.fillStyle = '#0F0';}
-
-/* if not charging and low or not charging and level is 20% and below */
 if (!charging && low || !charging && percentage <= 20) {
 	context.fillStyle = "#F00"; 
 }
+
+context.globalCompositeOperation = "source-atop";
 context.fillRect(
-	borderWidth, borderWidth, 
-	Math.round(innerWidth*(percentage/100)), 
-	innerHeight);
+	0, 0, 
+	Math.round(barWidth*(percentage/100)), 
+	barHeight);
+
+
 
 /* text */
+/*
 context.globalCompositeOperation = "xor";
 context.fillStyle                = tintOpaque;
-context.font                     = (innerHeight*0.95) + "px Verdana";
+context.font                     = (innerHeight*1.00) + "px Verdana";
 context.textAlign                = "center";
 context.textBaseline             = "middle";
 
 context.fillText(
 	percentage, 
 	Math.round(borderWidth+innerWidth/2), 
-	Math.round(borderWidth/2+borderWidth+innerHeight/2));
+	Math.round(borderWidth+innerHeight/2));
 	
 context.globalCompositeOperation  = "source-over";
-
+*/
 /* send the image */
 return canvas.toDataURL("image/png");
 }
-]]>
-</script>
-	
-
-</theme>
