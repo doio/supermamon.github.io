@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>Depiction</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+    <!--base target="_blank"/-->
+    <link rel="stylesheet" type="text/css" id="stylesheet" href="css/ios78.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.querystring.js"></script>
+    <script type="text/javascript">
+
+    jQuery( document ).ready(function() {
+        $("#errorPanel").hide();
+        bundleid = $.QueryString['p'];
+        $.ajax({
+            type: "GET",
+            dataType: "xml",
+            url: (bundleid+"/info.xml"),
+            success: function( xml ) {
+                // replace the contents of each data block
+                if ($(xml).find("screenshot").size()==0) {
+                    $("#screenshots").html("No screenshots available");
+                } else {
+                    var packageID = $(xml).find("id").text();
+
+                    var list = $(xml).find("screenshot");
+                    $.each(list, function(){
+                        var imageFile        = $(this).find("image").text(),
+                            imageDescription = $(this).find("description").text()
+                        $("#screenshots").append($("<span></span>").html(imageDescription));
+                        $("#screenshots").append($("<br />"));
+                        $("#screenshots").append($("<img></img>").attr("src",packageID+"/screenshots/"+imageFile))
+                    }); //each
+                } //else
+            }, //success
+            error: function() {
+                $("#packagePanel").hide();
+                $("#errorPanel").show();
+            }
+        });
+    });
+    </script>
+    
+</head>
+
+<body class="pinstripe">
+    <panel id="packagePanel">
+		<div>&nbsp;<br/></div>
+        <fieldset class="iosver" style="display:none">
+            <div data-min-ios="6.0" data-max-ios="9.0" class="prerequisite">
+                <p>Supports iOS 6.0 and above</p>
+            </div>
+        </fieldset>
+    
+    <label>Screenshots</label>
+        <fieldset>
+            <div id="screenshots"></div>
+        </fieldset>
+    </panel>
+    <panel id="errorPanel">
+        <label>Error</label>
+        <fieldset>
+            <div id="packageDescription">Unable to load package information.</div>
+        </fieldset>
+    </panel>
+</body>
+</html>

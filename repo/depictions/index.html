@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>Depiction</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+    <!--base target="_blank"/-->
+    <link rel="stylesheet" type="text/css" id="stylesheet" href="css/ios78.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.querystring.js"></script>
+    <script type="text/javascript">
+
+    var dataBlocks = {
+        "packageDescription":"description",
+        "latestChanges":"changes",
+        "bundleid":"id"
+    }
+
+    jQuery( document ).ready(function() {
+        $("#errorPanel").hide();
+
+        bundleid = $.QueryString['p'];
+        jQuery.ajax({
+            type: "GET",
+            dataType: "xml",
+            url: (bundleid+"/info.xml"),
+            success: function( xml ) {
+                // replace the contents of each data block
+                $.each(dataBlocks, function (key,value){
+                    $("#"+key).html($(xml).find(value+":first").text())
+                });
+                // special contents
+                if ($(xml).find("screenshot").size()==0) {
+                    jQuery("#screenshotsLink").hide();
+                } else {
+                    jQuery("#screenshotsLink").attr("href","screenshots.html?p="+bundleid);
+                }
+            },
+            error: function() {
+                $("#packagePanel").hide();
+                $("#errorPanel").show();
+            }
+        });
+    });
+    </script>
+    
+</head>
+
+<body class="pinstripe">
+    <panel id="packagePanel">
+		<div>&nbsp;<br/></div>
+        <fieldset class="iosver" style="display:none">
+            <div data-min-ios="6.0" data-max-ios="9.0" class="prerequisite">
+                <p>Supports iOS 6.0 and above</p>
+            </div>
+        </fieldset>
+    
+    <label>Description</label>
+        <fieldset>
+            <div id="packageDescription">{DESCRIPTION}</div>
+            <a id="screenshotsLink" href="screenshots.html"><img class="icon" src="images/screenshot@2x.png"><div><div><label><p>Screenshots</p></label></div></div></a>    
+        </fieldset>
+
+    <label>Latest Changes</label>
+        <fieldset>
+            <div id="latestChanges">{CHANGES}</div>
+        </fieldset>
+    <panel id="errorPanel">
+        <label>Error</label>
+        <fieldset>
+            <div id="packageDescription">Unable to load package information.</div>
+        </fieldset>
+    </panel>
+    <panel id="contactPanel">
+        <label>Contact</label>
+        <fieldset>
+            <a href="https://twitter.com/supermamon"><img class="icon" src="images/twitter@2x.png"><div><div><label><p>@supermamon</p></label></div></div></a>
+            <a href="https://github.com/supermamon"><img class="icon" src="images/web@2x.png"><div><div><label><p>My GitHub Profile!</p></label></div></div></a>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BPQNBXPYB56HL&lc=US&item_name=Send%20love%20to%20@supermamon&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted"><img class="icon" src="images/paypal.png"><div><div><label><p>Send some love!</p></label></div></div></a>
+        </fieldset>
+    </panel>
+</body>
+</html>

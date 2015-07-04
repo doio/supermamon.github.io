@@ -1,0 +1,22 @@
+<package>
+	<id>com.supermamon.lithiumnitro</id>
+	<description>
+	<![CDATA[
+This is a themepack for Lithium. It contains the following themes:
+<ul>
+	<li>LN-BattHead</li>
+	<li>LN-Dots</li>
+	<li>LN-Simple</li>
+	<li>LN-Speedometer</li>
+</ul>
+	]]>
+	</description>
+	<changes>v0.0.1-4 Minor changes</changes>
+	<screenshots>
+		<screenshot>
+			<description></description>
+			<thumbnail>shot1-thumb.jpg</thumbnail>
+			<image>shot1.jpg</image>
+		</screenshot>
+	</screenshots>
+</package>
