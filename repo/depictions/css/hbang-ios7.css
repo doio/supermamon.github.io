@@ -28,6 +28,9 @@ ul > li > a.withIcon {
 	margin-left: 2px;
 	padding-left: 40px;	
 }
+img.shot {
+	width: 290px;
+}
 #screenshotsLink {
 	background: url(../images/screenshot.png) center left no-repeat;
 }
