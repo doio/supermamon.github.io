@@ -10,7 +10,6 @@
 	</compatibility>
 	<dependencies>
 		<package>lithium</package>
-		<package>mobilesubstrate</package>
 	</dependencies>
 	<descriptionlist>
 		<description>This is a themepack for Lithium.</description>
