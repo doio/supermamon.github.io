@@ -14,6 +14,8 @@
     <script type="text/javascript" src="js/jquery.querystring.js"></script>
     <script type="text/javascript">
 	
+	bundleid = $.QueryString['p'];	
+	
     var contentBlocks = 	{
 		 "packageVersion"  : {"type":"text"
 								,"source" :"package>version"}
@@ -29,14 +31,21 @@
 		,"linksList"       : {"type":"list"  
 								,"source" :"package>links>link"
 								,"panel":"#linksPanel"}
-		,"screenshotsListX" : {"type":"list"  
+		,"screenshotsListDummy" : {"type":"list"  
 								,"source" :"package>screenshots>screenshot"
 								,"panel":"#screenshotsPanel"}
+		,"screenshotsLinkLI" : {"type":"text"
+								,"source" :"package>id"
+								,"render":function(data){
+									var htmltag = '<a class="withIcon" id="screenshotsLink" href="screenshots.html?p='+bundleid+'">Screenshots</a>'
+									return htmltag
+								}
+							}
 		,"screenshotsLink" : {"type":"attribute"
 								,"source" :"package>id"
 								,"findAttribute": "href"
 								,"findValue":"{PACKAGEID}"
-								}
+							}
 		,"packageName"     : {"type":"text","source":"package>name"}
     }
 	
@@ -59,16 +68,21 @@
 					} else {
 						if (!key) {return}
 						$.each(list, function(index,value){
-							$("#"+key).append('<li><p>'+$(value).text()+'</p></li>')
+							var item = $(value).text()
+							if (contentInfo.render) {
+								item = contentInfo.render(value);
+							}
+							$("#"+key).append('<li><p>'+item+'</p></li>')
 						});
 					}
 					break;
 				case "text":
 					if (!key) {return}
-					
-					//alert($(xml).find(contentInfo.source).html());
-					
-					$("#"+key).html($(xml).find(contentInfo.source).text())
+					var content = $(xml).find(contentInfo.source).text();
+					if (contentInfo.render) {
+						content = contentInfo.render($(xml).find(contentInfo.source))
+					}
+					$("#"+key).html(content)
 					
 					break;
 				case "attribute":
@@ -84,7 +98,6 @@
 	}
 	
     jQuery( document ).ready(function() {
-        bundleid = $.QueryString['p'];
         jQuery.ajax({
             type    : "GET",
             dataType: "xml",
@@ -119,7 +132,7 @@
 		<div id="screenshotsPanel">
 			<h2>Screenshots</h2>
 			<ul id="screenshotsList">
-				<li><a class="withIcon" id="screenshotsLink" href="screenshots.html?p={PACKAGEID}">Screenshots</a></li>
+				<li id="screenshotsLinkLI"></li>
 			</ul>
 		</div>
 		
