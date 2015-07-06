@@ -32,6 +32,9 @@
 		<change>Depiction changes</change>
 	</changelog>
 	<links>
-		<link><a href="https://supermamon.github.io/Lithium/ThemeMaker.html">Lithium Theme Maker</a></link>
+		<link>
+			<name>Lithium Theme Maker</name>
+			<url>https://supermamon.github.io/Lithium/ThemeMaker.html</url>
+		</link>
 	</links>
 </package>

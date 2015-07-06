@@ -57,10 +57,11 @@
 					break;
 				case "text":
 					if (!key) {return}
-					
-					//alert($(xml).find(contentInfo.source).html());
-					
-					$("#"+key).html($(xml).find(contentInfo.source).text())
+					var content = $(xml).find(contentInfo.source).text();
+					if (contentInfo.render) {
+						content = contentInfo.render($(xml).find(contentInfo.source))
+					}
+					$("#"+key).html(content)
 					
 					break;
 				case "attribute":

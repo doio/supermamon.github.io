@@ -30,7 +30,12 @@
 								,"panel":"#dependenciesPanel"}
 		,"linksList"       : {"type":"list"  
 								,"source" :"package>links>link"
-								,"panel":"#linksPanel"}
+								,"panel":"#linksPanel"
+								,"render":function(data){
+									var htmltag = '<a href="'+$(data).find('link > url').text()+'">'+$(data).find('link > name').text()+'</a>';
+									return htmltag
+								}
+							}
 		,"screenshotsListDummy" : {"type":"list"  
 								,"source" :"package>screenshots>screenshot"
 								,"panel":"#screenshotsPanel"}
