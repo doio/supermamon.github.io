@@ -31,6 +31,8 @@ ul > li > a.withIcon {
 img.shot {
 	width: 290px;
 }
+ul li>p>a{display:block;text-decoration:none;color:#007aff;position:relative;z-index:2}
+
 #screenshotsLink {
 	background: url(../images/screenshot.png) center left no-repeat;
 }
