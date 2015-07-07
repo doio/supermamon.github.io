@@ -1,8 +1,8 @@
-Origin: Supermamon's Repo
-Label: Supermamon's Repo
+Origin: /supermamon/
+Label: /supermamon/
 Suite: stable
 Version: 1.0
 Codename: ios
 Architectures: iphoneos-arm
 Components: main
-Description: A public open source repo by supermamon.
+Description: supermamon's public repo.
