@@ -12,102 +12,74 @@
 	<link rel="stylesheet" type="text/css" id="stylesheet" href="themes/simpleicon/css/styles.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.querystring.js"></script>
+    <script type="text/javascript" src="js/depiction-engine.js"></script>
     <script type="text/javascript">
 	
 	bundleid = $.QueryString['p'];	
 	
     var contentBlocks = 	{
-		 "packageVersion"  : {"type":"text"
+    	"packageName"		: {"type":"text","source":"package>name"}
+		,"packageVersion"	: {"type":"text"
 								,"source" :"package>version"}
-        ,"descriptionList" : {"type":"list"  
+        ,"descriptionList"	: {"type":"list"  
 								,"source" :"package>descriptionlist>description"
+								,"reverseRender":true
 								,"panel":"#descriptionPanel"}
 		,"changesList"      : {"type":"list"  
 								,"source" :"package>changelog>change"
+								,"reverseRender":true
 								,"panel":"#changesPanel"}
-		,"dependencyList"  : {"type":"list"  
+		,"fullChangelogLink": {"type":"link"
+								,"text":"Full Changelog"
+								,"url":"changelog.html"
+								,"params":[
+									['p',bundleid]
+								]}
+		,"dependencyList"	: {"type":"list"  
 								,"source" :"package>dependencies>package"
 								,"panel":"#dependenciesPanel"}
-		,"linksList"       : {"type":"list"  
+		,"linksList"		: {"type":"custom"  
 								,"source" :"package>links>link"
-								,"panel":"#linksPanel"
-								,"render":function(data){
-									var htmltag = '<a href="'+$(data).find('link > url').text()+'">'+$(data).find('link > name').text()+'</a>';
-									return htmltag
+								,"render":function(element,value){
+									if ($(value).size()==0) {
+										$('#linksPanel').remove()
+									} else {
+										$.each(value, function(){
+											console.log(this);
+											var htmltag = '<li><a href="'+$(this).find('link > url').text()+'">'+$(this).find('link > name').text()+'</a></li>';
+											$(element.append(htmltag))
+
+										})
+									}
+									
 								}
 							}
-		,"screenshotsListDummy" : {"type":"list"  
-								,"source" :"package>screenshots>screenshot"
-								,"panel":"#screenshotsPanel"}
-		,"screenshotsLinkLI" : {"type":"text"
-								,"source" :"package>id"
-								,"render":function(data){
-									var htmltag = '<a class="withIcon" id="screenshotsLink" href="screenshots.html?p='+bundleid+'">Screenshots</a>'
-									return htmltag
+		,"screenshotsLinkItem"	: {"type":"custom"
+									,"source" :"package>screenshots>screenshot"
+									,"render":function(element,value){
+										if ($(value).size()==0) {
+											$(element).remove();
+										} else {
+											$(element).append(
+												$("<a></a>")
+												.attr("href","screenshots.html?p="+bundleid)
+												.text('Screenshots')
+											);
+
+
+										}
+									}
 								}
-							}
-		,"screenshotsLink" : {"type":"attribute"
-								,"source" :"package>id"
-								,"findAttribute": "href"
-								,"findValue":"{PACKAGEID}"
-							}
-		,"packageName"     : {"type":"text","source":"package>name"}
     }
-	
-	function showDepictionInfo(xml) {
-		document.title = $(xml).find("package>name").text();
-		var version = $(xml).find("package>version").text();
-	
-		$.each(contentBlocks, function (key,contentInfo){
-			
-			/*
-			if (key=='changesList') {
-				contentInfo.source=contentInfo.source.replace(/{VERSION}/i,version);
-			}
-			*/
-			switch(contentInfo.type) {
-				case "list":
-					var list = $(xml).find(contentInfo.source);
-					if (list.size()==0) {
-						$(contentInfo.panel).hide(); //hide panel if 
-					} else {
-						if (!key) {return}
-						$.each(list, function(index,value){
-							var item = $(value).text()
-							if (contentInfo.render) {
-								item = contentInfo.render(value);
-							}
-							$("#"+key).append('<li><p>'+item+'</p></li>')
-						});
-					}
-					break;
-				case "text":
-					if (!key) {return}
-					var content = $(xml).find(contentInfo.source).text();
-					if (contentInfo.render) {
-						content = contentInfo.render($(xml).find(contentInfo.source))
-					}
-					$("#"+key).html(content)
-					
-					break;
-				case "attribute":
-					if (!key) {return}
-					var findAttr = $("#"+key).attr(contentInfo.findAttribute);
-					var reg      = new RegExp(contentInfo.findValue,"gi");
-					var repl     = $(xml).find(contentInfo.source).text();
-					var newValue = findAttr.replace( reg, repl )
-					$("#"+key).attr(contentInfo.findAttribute, newValue)
-					break;
-			}//switch
-		}); //each
-	}
 	
     jQuery( document ).ready(function() {
         jQuery.ajax({
             type    : "GET",
             dataType: "xml",
             url     : (bundleid+"/info.xml"),
-            success : showDepictionInfo,
+            success : function(xml){
+            	run_depiction_engine(contentBlocks,xml)
+            },
 			cache   : false,
             error: function() {
                 $("#packageInformation").hide();
@@ -131,19 +103,16 @@
 	
 		<div id="descriptionPanel">
 			<h2>Description</h2>
-			<ul id="descriptionList"></ul>
-		</div>
-		
-		<div id="screenshotsPanel">
-			<h2>Screenshots</h2>
-			<ul id="screenshotsList">
-				<li id="screenshotsLinkLI"></li>
+			<ul id="descriptionList">
+				<li id="screenshotsLinkItem"></li>
 			</ul>
 		</div>
 		
 		<div id="changesPanel">
 			<h2>In this update</h2>
-			<ul id="changesList"></ul>
+			<ul id="changesList">
+				<li id="fullChangelogLink"></li>
+			</ul>
 		</div>
 		
 		<div id="dependenciesPanel">

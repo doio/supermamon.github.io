@@ -19,5 +19,11 @@
 	<changelog>
 		<change>Initial release</change>
 	</changelog>
-	<links></links>
+	<links>
+		<link>
+			<name>Lithium Theme Maker</name>
+			<url>https://supermamon.github.io/Lithium/ThemeMaker.html</url>
+		</link>
+	</links>
+
 </package>
