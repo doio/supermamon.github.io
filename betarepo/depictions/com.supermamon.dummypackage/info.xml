@@ -1,0 +1,20 @@
+<package>
+	<id>com.supermamon.emptypackage</id>
+	<name>Empty Repo</name>
+	<version>1.0.0-1</version>
+	<compatibility>
+		<firmware>
+			<min>6.0</min>
+			<max>8.4</max>
+		</firmware>
+	</compatibility>
+	<dependencies></dependencies>
+	<descriptionlist>
+		<description>This is an empty package.</description>
+	</descriptionlist>
+	<screenshots></screenshots>
+	<changelog>
+		<change>Initial release</change>
+	</changelog>
+	<links></links>
+</package>
