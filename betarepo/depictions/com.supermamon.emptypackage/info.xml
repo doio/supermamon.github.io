@@ -1,7 +1,6 @@
-<?xml version="1.0" ?>
 <package>
-	<id>com.supermamon.speedometer4lithium</id>
-	<name>Speedometer for Lithium</name>
+	<id>com.supermamon.emptypackage</id>
+	<name>Empty Repo</name>
 	<version>1.0.0-1</version>
 	<compatibility>
 		<firmware>
@@ -9,11 +8,9 @@
 			<max>8.4</max>
 		</firmware>
 	</compatibility>
-	<dependencies>
-		<package>lithium</package>
-	</dependencies>
+	<dependencies></dependencies>
 	<descriptionlist>
-		<description>Speedometer theme for Lithium.</description>
+		<description>This is an empty package.</description>
 	</descriptionlist>
 	<screenshots></screenshots>
 	<changelog>
