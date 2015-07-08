@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Screenshots</title>
+    <title>Changelog</title>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
@@ -18,29 +18,21 @@
 	bundleid = $.QueryString['p'];	
 	
     var contentBlocks = 	{
-		"#screenshotsList" : {"type":"custom"  
-								,"source" :"package>screenshots>screenshot"
-								,"render":function(element,source){
-									if ($(source).size()==0){
-										$(element).html("<li><p>No screenshots found for this package.</p></li>")
-									}
-									$.each(source, function(data){
-										var p = $("<li>");
-										$(p).append( $("<img>")
-											.attr("class","shot")
-											.attr("src",bundleid+'/screenshots/'+$(data).find('image').text())
-										);
-										$(element).append(p);
-									});
-								}
-							}
+		"#changesList"	: {"type":"articles"
+							,"source"			:"changelog"
+							,"titleSource" 		:"version"
+							,"paragraphSource"	:"change"
+							,"titleElement"	    : "<h2>"
+							,"paragraphContainer": "<ul>"
+							,"paragraphElement"	: "<li>"
+						}
     }
 	
     jQuery( document ).ready(function() {
         jQuery.ajax({
             type    : "GET",
             dataType: "xml",
-            url     : (bundleid+"/info.xml"),
+            url     : (bundleid+"/changelog.xml"),
             success : function(xml){
             	data_loader_engine(contentBlocks,xml)
             },
@@ -56,10 +48,7 @@
 
 <body>
 	<div id="packageInformation">
-		<div id="screenshotsPanel">
-			<h2>Screenshots</h2>
-			<ul id="screenshotsList"></ul>
-		</div>
+		<div id="changesList"></div>
 	</div>
 	<div id="packageError" style="display:none">
 		<h2>Error</h2>
