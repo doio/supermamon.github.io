@@ -1,11 +1,15 @@
 <package>
 	<id>com.supermamon.emptypackage</id>
-	<name>Empty Repo</name>
-	<version>1.0.0-1</version>
+	<name>Empty Package</name>
+	<version>1.0.0-2</version>
 	<compatibility>
 		<firmware>
-			<min>6.0</min>
-			<max>8.4</max>
+			<miniOS>6.0</miniOS>
+			<maxiOS>8.4</maxiOS>
+			<otherVersions>unsupported</otherVersions>
+			<!--
+			for otherVersions, you can put either unsupported or unconfirmed
+			-->
 		</firmware>
 	</compatibility>
 	<dependencies></dependencies>

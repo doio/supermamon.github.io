@@ -1,0 +1,47 @@
+<package>
+	<id>com.supermamon.fullpackage</id>
+	<name>Full Package</name>
+	<version>2.0.0-1</version>
+	<compatibility>
+		<firmware>
+			<miniOS>6.0</miniOS>
+			<maxiOS>8.4</maxiOS>
+		</firmware>
+	</compatibility>
+	<dependencies>
+		<package>mobilesubstrate</package>
+		<package>preferenceloader</package>
+	</dependencies>
+	<descriptionlist>
+		<description>This is an package will full depictions.</description>
+		<description>It has more description lines.</description>
+		<description><![CDATA[
+		You can also have<br/> 
+		a multi-line item.
+		]]>
+		</description>
+	</descriptionlist>
+	<screenshots>
+		<screenshot>
+			<description>Screenshot 1</description>
+			<thumbnail>shot1-thumb.jpg</thumbnail>
+			<image>shot1.jpg</image>
+		</screenshot>		
+		<screenshot>
+			<description>Screenshot 2</description>
+			<thumbnail>shot1-thumb.jpg</thumbnail>
+			<image>shot1.jpg</image>
+		</screenshot>		
+	</screenshots>
+	<changelog>
+		<change>Second release</change>
+		<change>It has feature 1</change>
+		<change>It has feature 2</change>
+	</changelog>
+	<links>
+		<link>
+			<name>Google</name>
+			<url>http://www.google.com</url>
+		</link>
+	</links>
+</package>

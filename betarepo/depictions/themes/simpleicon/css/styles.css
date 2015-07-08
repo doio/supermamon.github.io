@@ -1,11 +1,21 @@
 /* Basic iOS 7 CSS // Apache 2 license // hbang.ws */ 
+
+/*clear all padding*/
 *{margin:0;padding:0;border:0;outline:0;box-sizing:border-box}
+
 html{background:#efeff4}
-body{font:16px -apple-system-font, ".Helvetica NeueUI", "Helvetica Neue", sans-serif;margin:20px 0 35px 0;cursor:default;-webkit-user-select:none}
+body{
+	font:16px -apple-system-font, ".Helvetica NeueUI", "Helvetica Neue", sans-serif;
+	margin:20px 0 35px 0;
+	cursor:default;
+	-webkit-user-select:none
+}
+
+h2,body>p{margin:10px;color:#6d6d72;font-size:14px;font-weight:400}
 .cydia body{margin-top:35px}
 .depiction{background:transparent}
 .depiction body{margin-top:0;margin-bottom:0}
-h2,body>p{margin:15px;color:#6d6d72;font-size:14px;font-weight:400}
+
 h2 a,body>p a{color:inherit}h2{text-transform:uppercase;margin-bottom:5px}
 a,li>button{color:#007aff}
 header{position:fixed;top:0;left:0;width:100%;height:44px;z-index:10;background:#f7f7f7;border-bottom:1px solid #c9c9cd}
@@ -14,7 +24,7 @@ header h1{text-align:center;font-size:18px;line-height:44px;font-weight:500}
 ul:before,ul:after{content:"";display:block;height:1px;background:#c8c7cc}
 ul li{border-bottom:1px solid #c8c7cc;padding-left:15px}
 ul li:last-child{border-bottom:0}
-ul li>p,ul li>a,ul li>button{padding:13px 15px;margin-left:-15px}
+ul li>p,ul li>a,ul li>button{padding:8px 10px;margin-left:-15px}
 ul li>p+p,ul li>p+a,ul li>p+button,ul li>a+p,ul li>a+a,ul li>a+button,ul li>button+p,ul li>button+a,ul li>button+button{padding-top:0}
 ul li>a,ul li>button{display:block;text-decoration:none;color:#007aff;position:relative;z-index:2}
 ul li>a:after,ul li>button:after{content:"";display:block;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NSIgaGVpZ2h0PSI5OSI+PHBvbHlnb24gcG9pbnRzPSIzNC43LDQ5LjcgMCw4NC40IDE1LjEsOTkuNSA2NC44LDQ5LjcgNDkuNywzNC43IDE1LjEsMCAwLDE1LjEiIHN0eWxlPSJmaWxsOiNjN2M3Y2MiLz48L3N2Zz4=");position:absolute;top:50%;right:15px;width:10px;height:13px;margin-top:-6.5px;background-size:100% 100%}
@@ -23,6 +33,8 @@ ul+p{margin-top:-25px}
 .depiction ul{margin-bottom:0}
 /*img{width:290px;}*/
 #downloads{display: block;text-decoration: none;color: black;position: relative;z-index: 2;padding: 13px 15px;margin-left: 0px;height: 47px;}
+
+
 /* custom */
 ul > li > a.withIcon {
 	margin-left: -3px;
@@ -45,4 +57,16 @@ ul li>p>a{display:block;text-decoration:none;color:#007aff;position:relative;z-i
 }
 #paypalLink {
 	background: url(../img/donate.png) center left no-repeat;
+}
+.hide {
+	display:none;
+}
+.bg-success {
+	color:#0f0;
+}
+.bg-warning {
+	color:#f00;
+}
+.text-center {
+	text-align: center;
 }
