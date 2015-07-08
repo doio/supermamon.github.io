@@ -24,7 +24,7 @@
 									if ($(source).size()==0){
 										$(element).html("<li><p>No screenshots found for this package.</p></li>")
 									}
-									$.each(source, function(data){
+									$.each(source, function(index,data){
 										var p = $("<li>");
 										$(p).append( $("<img>")
 											.attr("class","shot")
