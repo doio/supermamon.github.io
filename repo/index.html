@@ -19,48 +19,57 @@
 			.html(quote)
 			.append(footer);
 	});
-	
-	/*anything else?*/
-	
+
   })
   </script>
 </head>
 <body>
 
 <div class="container">
-	<h1>/supermamon/</h1>
+	<h1><img src="CydiaIcon.png"> /supermamon/</h1>
+	<br />
 	<blockquote class="blockquote" id="randomQuoteText">
 	Loading...
 	<footer id="randomQuoteFooter"></footer>
 	</blockquote>
 </div>
 
-<div class="container hidden">
-	<blockquote class="blockquote" id="randomQuote">
-	<p>Everything is connected... no one thing can change by itself.</p>
-	<footer>Paul Hawken</footer>
-	</blockquote>
+<div class="container">
+	<div class="well">
+		<p><span class="text-primary"><b>/supermamon/</span></b> repository contains themes and tweaks for jailbroken iOS devices.</p>
+		<a class="btn btn-sm btn-default" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://supermamon.github.io/repo/">Add to Cydia</a>
+	</div>
 </div>
 
 <div class="container">
-	<p>
-	<span class="text-primary"><b>/supermamon/</span></b> repository contains themes and tweaks for jailbroken iOS devices. 
-	If you’re on a jailbroken device, tap <a class="active" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://supermamon.github.io/repo/">here</a> to add this repo in Cydia.
-	</p>
+  <h3 id="wells" class="page-header">Hosted Packages</h3>
 </div>
 
 <div class="container">
-	<h4>Hosted packages</h4>
-	<dl>
-		<dt><a href="depictions/?p=com.supermamon.cylindernitro">CylinderNitro v1.0.0-1</a></dt>
-		<dd>Effects Pack for Cylinder</dd>
-		<br />
-		<dt><a href="depictions/?p=com.supermamon.lithiumnitro">Nitro Pack for Lithium v0.0.1-4</a></dt>
-		<dd>Theme Pack for Lithium</dd>
-		<br />
-		<dt><a href="depictions/?p=com.supermamon.speedometer4lithium">Speedometer for Lithium v1.0.0-1</a></dt>
-		<dd>Speedometer theme for Lithium</dd>
-	</dl>
+	<div class="panel panel-default">
+	  <div class="panel-heading">Nitro Effects Pack for Cylinder</div>
+	  <div class="panel-body">
+		This package contains additional effects for Cylinder.<br /><br />
+		<a class="btn btn-xs btn-default" href="depictions/?p=com.supermamon.cylindernitro">More info</a>
+	  </div>
+	</div>
+	
+	<div class="panel panel-default">
+	  <div class="panel-heading">Nitro Theme Pack for Lithium</div>
+	  <div class="panel-body">
+		Battery Theme Pack for Lithium.<br /><br />
+		<a class="btn btn-xs btn-default" href="depictions/?p=com.supermamon.lithiumnitro">More info</a>
+	  </div>
+	</div>
+	
+	<div class="panel panel-default">
+	  <div class="panel-heading">Speedometer for Lithium</div>
+	  <div class="panel-body">
+		Speedometer theme for Lithium.<br /><br />
+		<a class="btn btn-xs btn-default" href="depictions/?p=com.supermamon.speedometer4lithium">More info</a>
+	  </div>
+	</div>
 </div>
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 <package>
 	<id>com.supermamon.lithiumnitro</id>
-	<name>Nitro ThemePack for Lithium</name>
+	<name>Nitro Theme Pack for Lithium</name>
 	<version>0.0.1-4</version>
 	<compatibility>
 		<firmware>
@@ -17,7 +17,9 @@
 		<![CDATA[
 		It contains the following themes:<br>
 		- LN-BattHead<br>
-		- LN-Dots
+		- LN-Dots<br>
+		- LN-Simple<br>
+		- LN-Speedometer<br>
 		]]>
 		</description>
 	</descriptionlist>

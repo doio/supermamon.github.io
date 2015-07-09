@@ -9,8 +9,9 @@ const VERSION_CHECK_NEEDS_UPGRADE = "Requires at least iOS %s &#x1f615;";
 const VERSION_CHECK_UNCONFIRMED = "Not yet tested on iOS %s &#x1f601;";
 const VERSION_CHECK_UNSUPPORTED = "Only compatible with iOS %s to %s &#x1f61e;";
 
-function ios_version_check(minIOS,maxIOS,otherIOS,selector,failClass) {
+function ios_version_check(minIOS,maxIOS,otherIOS,callBack) {
 	"use strict";	
+	
 	
 	function parseVersionString(version) {
 		var bits = version.split(".");
@@ -69,13 +70,7 @@ function ios_version_check(minIOS,maxIOS,otherIOS,selector,failClass) {
 
 		isBad = true;
 	}
-
-    $(selector).html(message);
-
-	if (isBad) {
-		$(selector).addClass(failClass);
-	}
+	callBack(message,isBad);
 	
-	return (isBad?-1:1)
-	
+	return (isBad?-1:1);
 }
