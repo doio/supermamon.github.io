@@ -2,10 +2,6 @@
 	<changes>
 		<version>1.0.0-2</version>
 		<change>Initial release</change>
-		<change>Nothing else</change>
-	</changes>
-	<changes>
-		<version>0.0.0</version>
-		<change>Did not exist yet.</change>
+		<change>That's all!</change>
 	</changes>
 </changelog>

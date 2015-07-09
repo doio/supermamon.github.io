@@ -23,14 +23,12 @@
 	</descriptionlist>
 	<screenshots>
 		<screenshot>
-			<description>Screenshot 1</description>
-			<thumbnail>shot1-thumb.jpg</thumbnail>
-			<image>shot1.jpg</image>
+			<description>This is a description for screenshot 1. It's Cydia!</description>
+			<image>cydia.jpg</image>
 		</screenshot>		
 		<screenshot>
-			<description>Screenshot 2</description>
-			<thumbnail>shot1-thumb.jpg</thumbnail>
-			<image>shot1.jpg</image>
+			<description>This is a description for screenshot 2. It's another Cydia!</description>
+			<image>cydia.jpg</image>
 		</screenshot>		
 	</screenshots>
 	<changelog>
@@ -40,8 +38,8 @@
 	</changelog>
 	<links>
 		<link>
-			<name>Google</name>
-			<url>http://www.google.com</url>
+			<name>/r/jailbreak</name>
+			<url>https://www.reddit.com/r/jailbreak</url>
 		</link>
 	</links>
 </package>
