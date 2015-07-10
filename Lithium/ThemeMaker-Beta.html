@@ -231,7 +231,8 @@
 			}
 			// set icon
 			try {
-				var renderBattery    = new Function('height', 'percentage', 'charging', 'low', 'color', code);
+				var matches = code.match(/^(?:\s*\()(\s*\w+\s*(,\s*\w+\s*){4})/)[0].replace(/[\s\(\)]/g, '').split(',');
+				var renderBattery    = new Function(matches[0], matches[1], matches[2], matches[3], matches[4], code);
 				img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
 				$('#errorIcon' + percs[i]).hide();
 			} catch(err) {
@@ -239,6 +240,21 @@
 			}
 		}
 	} //settingsChanged
+	function compile() {
+		$.ajax({
+			type: 'POST',
+			url: 'https://closure-compiler.appspot.com/compile',
+			data: {
+	  			js_code: 'function r' + $('#code').val(),
+	  			compilation_level: 'SIMPLE_OPTIMIZATIONS',
+	  			output_info: 'compiled_code',
+	  			output_format: 'text'
+	  		},
+			success: function(data) {
+				$('#code').val(data.substring(10, data.length - 2).replace(/(\r\n|\n|\r)/gm, ''));
+			}
+		});
+	}
 
 	</script>
 </head>
@@ -275,6 +291,7 @@
 					<td valign="middle">Status Height</td>
 					<td><select id="cboHeight" onchange="settingsChange()">
 						<option value="20">20
+						<option value="24">24
 						<option value="40" selected>40
 						<option value="48">48
 						<option value="60">60
@@ -317,6 +334,14 @@
 					Doesn't detect light or dark wallpapers. Assumes dark. Set Custom System tint (0,0,0) to simulate light wallpaper.
 					</sup>
 				</tr>
+				<tr>
+					<td>Closure Compiler</td>
+					<td><input id="closureCompiler" type="button" onclick="compile()" value="Compile">
+					<br>
+					<sup>Run code through Google's Closure Compiler. Do this before packaging your theme. <span style="font-weight:bold">This will overwrite any code you have entered.</span>
+					<br>
+					<span id="compilerError"></span>
+					</sup>
 				<tr>
 					<td valign="top" colspan="2">How it looks like?</td>
 				</tr>
