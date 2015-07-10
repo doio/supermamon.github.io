@@ -5,14 +5,14 @@
 	<script src="js/jquery.querystring.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/lithium.css">
 	<script type="text/javascript">
-	
+
 	var themesFolder = "themes/"
 	var themes = [];
 	/*
-	themes[themes.length] = 'Habesha.xml';	
-	themes[themes.length] = 'LBI.xml';	
+	themes[themes.length] = 'Habesha.xml';
+	themes[themes.length] = 'LBI.xml';
 	themes[themes.length] = 'Droid.xml';
-	themes[themes.length] = 'Hearts.xml';	
+	themes[themes.length] = 'Hearts.xml';
 	themes[themes.length] = 'LN-Simple.xml';
 	themes[themes.length] = 'LN-Dots.xml';
 	themes[themes.length] = 'LN-Batthead.xml';
@@ -21,10 +21,10 @@
 
 	themes[themes.length] = 'Empty.xml';
 	*/
-	themes[themes.length] = 'Habesha.js';	
-	themes[themes.length] = 'LBI.js';	
+	themes[themes.length] = 'Habesha.js';
+	themes[themes.length] = 'LBI.js';
 	themes[themes.length] = 'Droid.js';
-	themes[themes.length] = 'Hearts.js';	
+	themes[themes.length] = 'Hearts.js';
 	themes[themes.length] = 'LN-Simple.js';
 	themes[themes.length] = 'LN-Dots.js';
 	themes[themes.length] = 'LN-Batthead.js';
@@ -37,8 +37,8 @@
 		//var themes = [];
 		//themes[themes.length] = $.QueryString['x'];
 	}
-	
-	
+
+
 
 	var tints = [];
 	tints['White']		= {name:'White'      ,backgroundColor:'#FFFFFF',tint:'0,0,0'};
@@ -51,16 +51,16 @@
 	tints['LinkedIn']	= {name:'LinkedIn'   ,backgroundColor:'#007bb6',tint:'255,255,255'};
 	tints['Viber']		= {name:'Viber'      ,backgroundColor:'#783cbd',tint:'255,255,255'};
 	tints['Transparent']= {name:'Transparent',backgroundColor:'#000000',tint:'255,255,255'};
-	
+
 	var LOADING_THEMES  = false;
-	
+
     $( document ).ready(function() {
         LOADING_THEMES = true;
 		for(var i=0;i<themes.length;i++) {
 			var xmlFile = themes[i];
-			
+
 			if ( (/js$/i).test(xmlFile) ) {
-			
+
 				$('#sampleChooser')
 					.append(
 						$("<option></option>")
@@ -69,7 +69,7 @@
 						.text(xmlFile)
 					);
 			} else {
-			
+
 				$.ajax({
 					  type: "GET",
 					  async: false,
@@ -88,9 +88,9 @@
 				}); //ajax
 			}
 		} //for
-		
-		
-		
+
+
+
 		for (itint in tints) {
 			$('#cboBackground')
 				.append(
@@ -98,20 +98,20 @@
 					.attr("value",tints[itint].name)
 					.text(tints[itint].name)
 				);
-		
+
 		}
 		LOADING_THEMES = false;
 		themeSelect();
-		
-    }); //document ready	
-	
+
+    }); //document ready
+
 	function themeSelect(){
-	
+
 		if (LOADING_THEMES) {return};
 		var xmlFile = $('#sampleChooser option:selected').val();
-		
+
 		if ((/js$/i).test(xmlFile)) {
-		
+
 			$.ajax({
 				  type: "GET",
 				  async: false,
@@ -121,7 +121,7 @@
 						$('#code').val(textData);
 				  }
 			}); //ajax
-		
+
 		} else {
 			$.ajax({
 				  type: "GET",
@@ -133,12 +133,12 @@
 						$('#code').val(themeScript);
 				  }
 			}); //ajax
-		
+
 		}
-		
-		
+
+
 		settingsChange();
-		
+
 	}
 
 	function settingsChange() {
@@ -152,34 +152,34 @@
 		} else {
 			backgroundImage = null;
 		}
-		
+
 		var isCustomTint = $('#isCustomTint').is(':checked');
 		if (!isCustomTint) {
 			$('#txtColor').val(tints[statusBackground].tint);
 		}
-		
+
 		var colors = $('#txtColor').val();
 		var colors = colors.split(',');
 
 		var height = $('#cboHeight option:selected').val();
 		var isCharging = $('#isCharging').is(':checked');
 		var isLow = $('#isLow').is(':checked');
-		
+
 		var percs=[5,10,20,50,75,100];
-		
+
 		var samples = document.getElementById('samples');
-		
+
 		for(var i=0;i<percs.length;i++) {
-			
+
 			// create the status bar
 			var div = document.getElementById('div'+percs[i]);
 			//var div = $('#div'+percs[i]);
-			
+
 			// create the battery image
 			var img = document.getElementById('img'+percs[i]);
 
 			if (!div) { // if not existing
-				
+
 				// create
 				div = document.createElement("div");
 				$(div)
@@ -189,22 +189,22 @@
 				if (i>0) {
 					$('#samples').append($('<br>'))
 				}
-				
+
 				$('#samples').append(div)
-				
+
 			}
 			// set status bar styles
 			div.style.height = height+'px';
-			
+
 			if (backgroundImage) {
 				div.style.backgroundImage  = backgroundImage;
 			} else {
 				div.style.backgroundColor = statusBackgroundColor;
 				div.style.backgroundImage = null;
 			}
-			
+
 			if (!img) { //if not exists
-			
+
 				$(div).append(
 					$("<span id='errorIcon" + percs[i] + "'>E</span>")
 						.css({
@@ -219,18 +219,19 @@
 							"float":"left"
 						})
 				)
-			
+
 				img=document.createElement("img");
 				img.setAttribute('id','img'+percs[i]);
 				img.setAttribute('align','right');
 				img.setAttribute('class','battery');
 				div.appendChild(img);
 				div.appendChild(document.createTextNode(' '));
-				
+
 			}
 			// set icon
 			try {
-				var renderBattery    = new Function('height', 'percentage', 'charging', 'low', 'color', code);
+				var matches = code.match(/^(?:\s*\()(\s*\w+\s*(,\s*\w+\s*){4})/)[0].replace(/[\s\(\)]/g, '').split(',');
+				var renderBattery    = new Function(matches[0], matches[1], matches[2], matches[3], matches[4], code);
 				img.setAttribute('src', renderBattery(height, percs[i], isCharging, isLow, colors) );
 				$('#errorIcon' + percs[i]).hide();
 			} catch(err) {
@@ -238,6 +239,21 @@
 			}
 		}
 	} //settingsChanged
+	function compile() {
+		$.ajax({
+			type: 'POST',
+			url: 'http://closure-compiler.appspot.com/compile',
+			data: {
+	  			js_code: 'function r' + $('#code').val(),
+	  			compilation_level: 'SIMPLE_OPTIMIZATIONS',
+	  			output_info: 'compiled_code',
+	  			output_format: 'text'
+	  		},
+			success: function(data) {
+				$('#code').val(data.substring(10, data.length - 2).replace(/(\r\n|\n|\r)/gm, ''));
+			}
+		});
+	}
 
 	</script>
 </head>
@@ -274,6 +290,7 @@
 					<td valign="middle">Status Height</td>
 					<td><select id="cboHeight" onchange="settingsChange()">
 						<option value="20">20
+						<option value="24">24
 						<option value="40" selected>40
 						<option value="48">48
 						<option value="60">60
@@ -289,16 +306,16 @@
 						<input id="isCharging" type="checkBox" onclick="settingsChange()">
 						<br>
 						<sup>Tick this to see how it looks like when charging</sup>
-					</td>					
+					</td>
 				</tr>
 				<tr>
 					<td>Battery Low</td>
 					<td>
 						<input id="isLow" type="checkBox" onclick="settingsChange()">
-						
+
 						<br>
 						<sup>Tick this to see how it looks like when battery is low</sup>
-					<td>						
+					<td>
 				</tr>
 				<tr>
 					<td>System Tint</td>
@@ -316,6 +333,14 @@
 					Doesn't detect light or dark wallpapers. Assumes dark. Set Custom System tint (0,0,0) to simulate light wallpaper.
 					</sup>
 				</tr>
+				<tr>
+					<td>Closure Compiler</td>
+					<td><input id="closureCompiler" type="button" onclick="compile()" value="Compile">
+					<br>
+					<sup>Run code through Google's Closure Compiler. Do this before packaging your theme. <span style="font-weight:bold">This will overwrite any code you have entered.</span>
+					<br>
+					<span id="compilerError"></span>
+					</sup>
 				<tr>
 					<td valign="top" colspan="2">How it looks like?</td>
 				</tr>
